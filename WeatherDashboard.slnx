@@ -1,0 +1,26 @@
+<Solution>
+    <Folder Name="/Solution Items/">
+        <File Path=".dockerignore" />
+        <File Path=".editorconfig" />
+        <File Path=".gitignore" />
+        <File Path="Directory.Build.props" />
+        <File Path="Directory.Packages.props" />
+        <File Path="docker-compose.yaml" />
+        <File Path="Dockerfile" />
+        <File Path="global.json" />
+        <File Path="nuget.config" />
+    </Folder>
+    <Folder Name="/Tests/">
+        <File Path="tests\.gitignore" />
+        <Project Path="tests/WeatherDashboard.Infrastructure.IntegrationTests/WeatherDashboard.Infrastructure.IntegrationTests.csproj" />
+        <Project Path="tests/WeatherDashboard.Web.UiTests/WeatherDashboard.Web.UiTests.csproj" />
+        <Project Path="tests/WeatherDashboard.Web.UnitTests/WeatherDashboard.Web.UnitTests.csproj" />
+        <Project Path="tests\WeatherDashboard.Application.UnitTests\WeatherDashboard.Application.UnitTests.csproj" />
+        <Project Path="tests\WeatherDashboard.Domain.UnitTests\WeatherDashboard.Domain.UnitTests.csproj" />
+        <Project Path="tests\WeatherDashboard.Infrastructure.UnitTests\WeatherDashboard.Infrastructure.UnitTests.csproj" />
+    </Folder>
+    <Project Path="src/WeatherDashboard.Application/WeatherDashboard.Application.csproj" />
+    <Project Path="src/WeatherDashboard.Domain/WeatherDashboard.Domain.csproj" />
+    <Project Path="src/WeatherDashboard.Infrastructure/WeatherDashboard.Infrastructure.csproj" />
+    <Project Path="src/WeatherDashboard.Web/WeatherDashboard.Web.csproj" />
+</Solution>

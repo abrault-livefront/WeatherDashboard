@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WeatherDashboard.Domain\WeatherDashboard.Domain.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MessagePack"/>
+    <PackageReference Include="Riok.Mapperly"/>
+  </ItemGroup>
+
+</Project>

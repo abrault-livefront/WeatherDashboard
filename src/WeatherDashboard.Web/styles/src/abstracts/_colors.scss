@@ -1,0 +1,33 @@
+// _colors.scss
+// Design system color tokens.
+
+// Brand / status colors
+
+// Success green for positive states (validation, badges, accents).
+$color-success: #26b050;
+
+// Error red for invalid states, error text, and icons.
+$color-error: #e50000;
+
+// Deeper error background for banners/toasts; pairs with `$color-white` text.
+// Ensure contrast meets WCAG AA on usage surfaces.
+$color-error-bg: #b32121;
+
+// Neutral dark border for inputs and light-surface components.
+$color-border-dark: #929292;
+
+// Base white for surfaces and readable text on dark backgrounds.
+$color-white: white;
+
+// Warning / info colors
+
+// Light yellow background for non-critical warning messages.
+$color-warning-light: lightyellow;
+
+// Overlay colors with transparency
+
+// Light overlay for loading states (semi-transparent white).
+$color-overlay-light: rgba(255, 255, 255, 0.8);
+
+// Subtle shadow color for depth and elevation.
+$color-shadow-subtle: rgba(0, 0, 0, 0.2);

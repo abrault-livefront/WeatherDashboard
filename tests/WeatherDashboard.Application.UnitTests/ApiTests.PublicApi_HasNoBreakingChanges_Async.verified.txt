@@ -1,0 +1,110 @@
+﻿[assembly: MessagePack.Internal.GeneratedAssemblyMessagePackResolver(typeof(MessagePack.GeneratedMessagePackResolver), 3, 1)]
+[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://git.visus.io/alan.brault/WeatherDashboard.git")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("WeatherDashboard.Application.UnitTests")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace WeatherDashboard.Application.Common.Extensions
+{
+    public static class WeatherCodeExtensions
+    {
+        public static string ToResourceKey(this WeatherDashboard.Domain.Entities.Weather.Enums.WeatherCode weatherCode) { }
+    }
+}
+namespace WeatherDashboard.Application.Common.Interfaces
+{
+    public interface IIndexerService<in TDocument> : System.IDisposable
+        where in TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        System.IO.DirectoryInfo IndexDirectory { get; }
+        string IndexName { get; }
+        void Index(TDocument document);
+        void IndexMany(System.Collections.Generic.IEnumerable<TDocument> documents);
+    }
+    public interface IRateLimitTracker
+    {
+        System.Threading.Tasks.Task<bool> CanMakeRequestAsync(System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task RecordRequestAsync(System.Threading.CancellationToken cancellationToken = default);
+    }
+    public interface ISearchService<TDocument> : System.IDisposable
+        where TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        WeatherDashboard.Domain.Common.SearchResult<TDocument> Search(string query, int limit = 10);
+    }
+    public interface ITimeProvider
+    {
+        System.DateTimeOffset Now { get; }
+    }
+    public interface IWeatherService
+    {
+        System.Threading.Tasks.Task<WeatherDashboard.Domain.Entities.Weather.Forecast?> RequestAsync(double latitude, double longitude, System.Threading.CancellationToken cancellationToken = default);
+    }
+}
+namespace WeatherDashboard.Application.Common.Serialization.Json
+{
+    public sealed class JsonStringTimeZoneInfoConverter : System.Text.Json.Serialization.JsonConverter<System.TimeZoneInfo>
+    {
+        public JsonStringTimeZoneInfoConverter() { }
+        public override System.TimeZoneInfo? Read(ref System.Text.Json.Utf8JsonReader reader, System.Type typeToConvert, System.Text.Json.JsonSerializerOptions options) { }
+        public override void Write(System.Text.Json.Utf8JsonWriter writer, System.TimeZoneInfo value, System.Text.Json.JsonSerializerOptions options) { }
+    }
+}
+namespace WeatherDashboard.Application.Common.Serialization.MessagePack
+{
+    public sealed class TimeZoneInfoFormatter : MessagePack.Formatters.IMessagePackFormatter, MessagePack.Formatters.IMessagePackFormatter<System.TimeZoneInfo?>
+    {
+        public TimeZoneInfoFormatter() { }
+        public System.TimeZoneInfo? Deserialize(ref MessagePack.MessagePackReader reader, MessagePack.MessagePackSerializerOptions options) { }
+        public void Serialize(ref MessagePack.MessagePackWriter writer, System.TimeZoneInfo? value, MessagePack.MessagePackSerializerOptions options) { }
+    }
+}
+namespace WeatherDashboard.Application.Common.Utilities
+{
+    public static class HashUtility
+    {
+        public static string HashString(string input) { }
+    }
+}
+namespace WeatherDashboard.Application.Contracts.Weather
+{
+    [MessagePack.MessagePackObject(false)]
+    public sealed class ForecastCacheContract
+    {
+        public ForecastCacheContract() { }
+        [MessagePack.Key(1)]
+        public double DewPoint { get; set; }
+        [MessagePack.Key(0)]
+        public System.Collections.Generic.IDictionary<System.DateOnly, WeatherDashboard.Application.Contracts.Weather.ForecastCacheContract> FutureForecasts { get; set; }
+        [MessagePack.Key(2)]
+        public int Humidity { get; set; }
+        [MessagePack.Key(3)]
+        public double Latitude { get; set; }
+        [MessagePack.Key(4)]
+        public double Longitude { get; set; }
+        [MessagePack.Key(5)]
+        public System.DateTimeOffset Sunrise { get; set; }
+        [MessagePack.Key(6)]
+        public System.DateTimeOffset Sunset { get; set; }
+        [MessagePack.Key(7)]
+        public double SurfacePressure { get; set; }
+        [MessagePack.Key(8)]
+        public double Temperature { get; set; }
+        [MessagePack.Key(9)]
+        public System.TimeZoneInfo TimeZone { get; set; }
+        [MessagePack.Key(10)]
+        public double UvIndex { get; set; }
+        [MessagePack.Key(11)]
+        public double Visibility { get; set; }
+        [MessagePack.Key(12)]
+        public WeatherDashboard.Domain.Entities.Weather.Enums.WeatherCode WeatherCode { get; set; }
+        [MessagePack.Key(13)]
+        public int WindDirection { get; set; }
+        [MessagePack.Key(14)]
+        public double WindGusts { get; set; }
+        [MessagePack.Key(15)]
+        public double WindSpeed { get; set; }
+    }
+    public static class ForecastCacheContractMapper
+    {
+        public static WeatherDashboard.Application.Contracts.Weather.ForecastCacheContract ToContract(WeatherDashboard.Domain.Entities.Weather.Forecast forecast) { }
+    }
+}

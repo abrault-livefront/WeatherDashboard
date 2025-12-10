@@ -1,0 +1,15 @@
+// _functions.scss
+// Reusable Sass functions for calculations and transformations.
+
+// Fluid sizing using clamp() for responsive typography and spacing.
+// Creates a flexible value that scales between min and max based on viewport.
+//
+// @param $min - Minimum size (used on small screens)
+// @param $ideal - Preferred size using viewport units (e.g., 2.5vw)
+// @param $max - Maximum size (used on large screens)
+// @return Clamped CSS value
+//
+// Example: font-size: fluid-size(1.25rem, 2.5vw, 1.75rem);
+@function fluid-size($min, $ideal, $max) {
+  @return clamp($min, $ideal, $max);
+}

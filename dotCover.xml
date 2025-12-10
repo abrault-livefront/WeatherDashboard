@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AnalysisParams>
+    <TargetExecutable/>
+    <TargetArguments/>
+    <TargetWorkingDir/>
+    <Output>coverage.dcvr</Output>
+    <ReportType>HTML</ReportType>
+
+    <Filters>
+        <!-- Exclude auto-generated MessagePack code -->
+        <ExcludeFilters>
+            <FilterEntry>
+                <ModuleMask>*</ModuleMask>
+                <ClassMask>MessagePack.GeneratedMessagePackResolver</ClassMask>
+                <FunctionMask>*</FunctionMask>
+            </FilterEntry>
+            <FilterEntry>
+                <ModuleMask>*</ModuleMask>
+                <ClassMask>MessagePack.Resolvers.*</ClassMask>
+                <FunctionMask>*</FunctionMask>
+            </FilterEntry>
+            <FilterEntry>
+                <ModuleMask>*</ModuleMask>
+                <ClassMask>MessagePack.Formatters.*Formatter</ClassMask>
+                <FunctionMask>*</FunctionMask>
+            </FilterEntry>
+        </ExcludeFilters>
+
+        <!-- Exclude classes/methods with these attributes -->
+        <AttributeFilters>
+            <AttributeFilterEntry>
+                <ClassMask>System.CodeDom.Compiler.GeneratedCodeAttribute</ClassMask>
+            </AttributeFilterEntry>
+            <AttributeFilterEntry>
+                <ClassMask>System.Runtime.CompilerServices.CompilerGeneratedAttribute</ClassMask>
+            </AttributeFilterEntry>
+            <AttributeFilterEntry>
+                <ClassMask>System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute</ClassMask>
+            </AttributeFilterEntry>
+        </AttributeFilters>
+    </Filters>
+</AnalysisParams>

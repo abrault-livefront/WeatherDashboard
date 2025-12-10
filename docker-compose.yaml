@@ -1,0 +1,103 @@
+name: 'weather-dashboard'
+
+networks:
+    weather-net:
+        driver: bridge
+
+services:
+    app:
+        build: .
+        container_name: weather-dashboard-app
+        ports:
+            - '8080:8080'
+        depends_on:
+            redis-cache:
+                condition: service_healthy
+            redis-config:
+                condition: service_healthy
+        networks:
+            - weather-net
+        restart: unless-stopped
+        deploy:
+            resources:
+                limits:
+                    cpus: '1.0'
+                    memory: 512M
+                reservations:
+                    cpus: '0.5'
+                    memory: 256M
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "10m"  # Max 30MB total (3 files × 10MB)
+                max-file: "3"
+        security_opt:
+            - no-new-privileges:true
+        healthcheck:
+            test: ["CMD-SHELL", "curl -f http://localhost:8080/ || exit 1"]
+            interval: 30s
+            timeout: 3s
+            start_period: 30s
+            retries: 3
+
+    redis-cache:
+        image: redis:8.4-alpine
+        container_name: weather-dashboard-redis-cache
+        command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru  # LRU eviction for caching
+        ports:
+            - '6379:6379'
+        networks:
+            - weather-net
+        restart: unless-stopped
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 300M
+                reservations:
+                    cpus: '0.25'
+                    memory: 256M
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"  # Max 15MB total (3 files × 5MB)
+                max-file: "3"
+        security_opt:
+            - no-new-privileges:true
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 3s
+            start_period: 5s
+            retries: 3
+
+    redis-config:
+        image: redis:8.4-alpine
+        container_name: weather-dashboard-redis-config
+        command: redis-server --maxmemory 128mb --maxmemory-policy noeviction  # No eviction for config data
+        ports:
+            - '6380:6379'
+        networks:
+            - weather-net
+        restart: unless-stopped
+        deploy:
+            resources:
+                limits:
+                    cpus: '0.5'
+                    memory: 200M
+                reservations:
+                    cpus: '0.25'
+                    memory: 128M
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "5m"  # Max 15MB total (3 files × 5MB)
+                max-file: "3"
+        security_opt:
+            - no-new-privileges:true
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 10s
+            timeout: 3s
+            start_period: 5s
+            retries: 3

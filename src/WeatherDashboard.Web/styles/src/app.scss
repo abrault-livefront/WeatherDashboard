@@ -1,0 +1,31 @@
+// app.scss
+// Main stylesheet manifest for Weather Dashboard.
+// This file orchestrates all styles by importing organized modules.
+
+// 1. Design tokens (variables, functions, mixins)
+// Import order matters: functions → variables → mixins
+// Note: abstracts/icons is only used internally by components and not imported here
+@use 'abstracts/functions';
+@use 'abstracts/borders';
+@use 'abstracts/colors';
+@use 'abstracts/elevation';
+@use 'abstracts/mixins';
+@use 'abstracts/radii';
+@use 'abstracts/spacing';
+@use 'abstracts/typography';
+
+// 1.5. Vendor libraries (third-party styles)
+@use 'vendor/weather-icons';
+
+// 2. Base styles (global element defaults and resets)
+@use 'base/global';
+
+// 3. Components (reusable UI components)
+@use 'components/error-boundary';
+@use 'components/loading';
+@use 'components/validation';
+
+// 4. Utilities (helper classes for layout and styling)
+@use 'utilities/icons';
+@use 'utilities/layout';
+@use 'utilities/position';

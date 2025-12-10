@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "weather-dashboard-web",
+  "scripts": {
+    "css:build:dev": "sass --silence-deprecation=import --style=expanded --source-map styles/src/app.scss wwwroot/styles/app.css",
+    "css:build": "sass --silence-deprecation=import --style=compressed --no-source-map styles/src/app.scss wwwroot/styles/app.css",
+    "css:watch": "sass --silence-deprecation=import --watch --style=expanded --source-map styles/src/app.scss wwwroot/styles/app.css",
+    "copy:fonts": "mkdir -p wwwroot/fonts && cp -r node_modules/weather-icons/font/* wwwroot/fonts/",
+    "postinstall": "pnpm run copy:fonts"
+  },
+  "devDependencies": {
+    "sass": "^1.94.2",
+    "weather-icons": "git+https://git@github.com/erikflowers/weather-icons.git"
+  },
+  "packageManager": "pnpm@10.23.0"
+}

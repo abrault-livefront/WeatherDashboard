@@ -1,0 +1,141 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://git.visus.io/alan.brault/WeatherDashboard.git")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("WeatherDashboard.Domain.UnitTests")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace WeatherDashboard.Domain.Collections
+{
+    public sealed class ValueRangeMap<TKey, TValue> : System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<WeatherDashboard.Domain.ValueObjects.ValueRange<TKey>, TValue>>, System.Collections.Generic.IReadOnlyCollection<System.Collections.Generic.KeyValuePair<WeatherDashboard.Domain.ValueObjects.ValueRange<TKey>, TValue>>, System.Collections.IEnumerable
+        where TKey : System.IComparable<TKey>
+        where TValue :  notnull
+    {
+        public ValueRangeMap() { }
+        public ValueRangeMap([System.Runtime.CompilerServices.TupleElementNames(new string[] {
+                "range",
+                "value"})] System.Collections.Generic.IEnumerable<System.ValueTuple<WeatherDashboard.Domain.ValueObjects.ValueRange<TKey>, TValue>> items) { }
+        public int Count { get; }
+        public void Add(WeatherDashboard.Domain.ValueObjects.ValueRange<TKey> valueRange, TValue value) { }
+        public System.Collections.Generic.IEnumerator<System.Collections.Generic.KeyValuePair<WeatherDashboard.Domain.ValueObjects.ValueRange<TKey>, TValue>> GetEnumerator() { }
+        public TValue GetValueOrDefault(TKey key, TValue defaultValue) { }
+        public bool TryGetValue(TKey key, out TValue? value) { }
+        public WeatherDashboard.Domain.Collections.ValueRangeMap<TKey, TValue> With(WeatherDashboard.Domain.ValueObjects.ValueRange<TKey> valueRange, TValue value) { }
+    }
+}
+namespace WeatherDashboard.Domain.Common
+{
+    public sealed class SearchResult<T> : System.IEquatable<WeatherDashboard.Domain.Common.SearchResult<T>>
+        where T :  class
+    {
+        public SearchResult(System.Collections.Generic.IReadOnlyList<T> Results, int TotalCount) { }
+        public System.Collections.Generic.IReadOnlyList<T> Results { get; init; }
+        public int TotalCount { get; init; }
+    }
+}
+namespace WeatherDashboard.Domain.Entities.Documents
+{
+    public interface IDocument
+    {
+        System.Guid Id { get; }
+    }
+    public class LocationDocument : System.IEquatable<WeatherDashboard.Domain.Entities.Documents.LocationDocument>, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        public LocationDocument(System.Guid Id, string Locality, string Province, string ProvinceCode, System.Collections.Generic.IReadOnlyList<string> PostalCodes, double Latitude, double Longitude) { }
+        public System.Guid Id { get; init; }
+        public double Latitude { get; init; }
+        public string Locality { get; init; }
+        public double Longitude { get; init; }
+        public System.Collections.Generic.IReadOnlyList<string> PostalCodes { get; init; }
+        public string Province { get; init; }
+        public string ProvinceCode { get; init; }
+    }
+}
+namespace WeatherDashboard.Domain.Entities.Weather.Enums
+{
+    public enum WeatherCode
+    {
+        ClearSky = 0,
+        MainlyClear = 1,
+        PartlyCloudy = 2,
+        Overcast = 3,
+        Fog = 45,
+        DepositingRimeFog = 48,
+        DrizzleLight = 51,
+        DrizzleModerate = 53,
+        DrizzleDense = 55,
+        FreezingDrizzleLight = 56,
+        FreezingDrizzleDense = 57,
+        RainSlight = 61,
+        RainModerate = 63,
+        RainHeavy = 65,
+        FreezingRainLight = 66,
+        FreezingRainHeavy = 67,
+        SnowFallSlight = 71,
+        SnowFallModerate = 73,
+        SnowFallHeavy = 75,
+        SnowGrains = 77,
+        RainShowersSlight = 80,
+        RainShowersModerate = 81,
+        RainShowersViolent = 82,
+        SnowShowersSlight = 85,
+        SnowShowersHeavy = 86,
+        ThunderstormSlightOrModerate = 95,
+        ThunderstormWithHail = 96,
+        ThunderstormWithSevereHail = 99,
+    }
+}
+namespace WeatherDashboard.Domain.Entities.Weather
+{
+    public sealed class Forecast
+    {
+        public Forecast() { }
+        public double DewPoint { get; set; }
+        public System.Collections.Generic.IDictionary<System.DateOnly, WeatherDashboard.Domain.Entities.Weather.Forecast> FutureForecasts { get; set; }
+        public int Humidity { get; set; }
+        public double Latitude { get; init; }
+        public double Longitude { get; init; }
+        public System.DateTimeOffset Sunrise { get; set; }
+        public System.DateTimeOffset Sunset { get; set; }
+        public double SurfacePressure { get; set; }
+        public double Temperature { get; set; }
+        public System.TimeZoneInfo TimeZone { get; init; }
+        public double UvIndex { get; set; }
+        public double Visibility { get; set; }
+        public WeatherDashboard.Domain.Entities.Weather.Enums.WeatherCode WeatherCode { get; set; }
+        public int WindDirection { get; set; }
+        public double WindGusts { get; set; }
+        public double WindSpeed { get; set; }
+    }
+}
+namespace WeatherDashboard.Domain.Serialization.Json
+{
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    [System.Text.Json.Serialization.JsonSerializable(typeof(System.Collections.Generic.List<WeatherDashboard.Domain.Entities.Documents.LocationDocument>))]
+    [System.Text.Json.Serialization.JsonSerializable(typeof(WeatherDashboard.Domain.Entities.Documents.LocationDocument))]
+    [System.Text.Json.Serialization.JsonSourceGenerationOptions(System.Text.Json.JsonSerializerDefaults.Web)]
+    public sealed class DocumentJsonSerializerContext : System.Text.Json.Serialization.JsonSerializerContext, System.Text.Json.Serialization.Metadata.IJsonTypeInfoResolver
+    {
+        public DocumentJsonSerializerContext() { }
+        public DocumentJsonSerializerContext(System.Text.Json.JsonSerializerOptions options) { }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<double> Double { get; }
+        protected override System.Text.Json.JsonSerializerOptions? GeneratedSerializerOptions { get; }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<System.Guid> Guid { get; }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<System.Collections.Generic.IReadOnlyList<string>> IReadOnlyListString { get; }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<System.Collections.Generic.List<WeatherDashboard.Domain.Entities.Documents.LocationDocument>> ListLocationDocument { get; }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<WeatherDashboard.Domain.Entities.Documents.LocationDocument> LocationDocument { get; }
+        public System.Text.Json.Serialization.Metadata.JsonTypeInfo<string> String { get; }
+        public static WeatherDashboard.Domain.Serialization.Json.DocumentJsonSerializerContext Default { get; }
+        public override System.Text.Json.Serialization.Metadata.JsonTypeInfo? GetTypeInfo(System.Type type) { }
+    }
+}
+namespace WeatherDashboard.Domain.ValueObjects
+{
+    public readonly struct ValueRange<T> : System.IEquatable<WeatherDashboard.Domain.ValueObjects.ValueRange<T>>
+        where T : System.IComparable<T>
+    {
+        public ValueRange(T min, T max) { }
+        public T Max { get; }
+        public T Min { get; }
+        public bool Contains(T value) { }
+        public bool OverlapsWith(WeatherDashboard.Domain.ValueObjects.ValueRange<T> other) { }
+        public override string ToString() { }
+    }
+}

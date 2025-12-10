@@ -1,0 +1,47 @@
+// _error-boundary.scss
+// Blazor error boundary and error UI styling.
+
+@use 'sass:math';
+@use '../abstracts/colors' as *;
+@use '../abstracts/elevation' as *;
+@use '../abstracts/icons' as *;
+@use '../abstracts/spacing' as *;
+
+// Derived variable: horizontal offset for error icon background.
+// Uses padding and icon size to maintain visual alignment across scales.
+$error-bg-pos-x: math.div($padding-sm, $icon-size-sm);
+
+// Blazor error boundary styling.
+.blazor-error-boundary {
+  --error-icon: #{$icon-warning};
+  --error-bg-pos-x: #{$error-bg-pos-x};
+  background: var(--error-icon) no-repeat var(--error-bg-pos-x) $padding-sm,
+    $color-error-bg;
+  padding: $padding-sm $padding-sm $padding-sm $padding-error-left;
+  color: $color-white;
+
+  &::after {
+    content: "An error has occurred.";
+  }
+}
+
+// Blazor error UI toast/banner at page bottom.
+// Hidden by default; surfaced by Blazor during unhandled errors.
+#blazor-error-ui {
+  background: $color-warning-light;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: $z-index-modal;
+  display: none;
+  padding: $padding-xs $padding-md $padding-xs;
+  box-shadow: $shadow-subtle;
+
+  .dismiss {
+    position: absolute;
+    top: $padding-xs;
+    right: $padding-xs + 0.25rem;
+    cursor: pointer;
+  }
+}

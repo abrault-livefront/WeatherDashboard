@@ -1,0 +1,21 @@
+// _spacing.scss
+// Spacing tokens for padding and icon dimensions.
+
+// Padding scale
+// Extra small padding for tight spacing and fine-tuned adjustments.
+$padding-xs: 0.5rem;
+
+// Small/default padding for compact components and inputs.
+$padding-sm: 1rem;
+
+// Medium padding for comfortable spacing in cards and containers.
+$padding-md: 1.25rem;
+
+// Left padding reserved for leading status icons (e.g., warning\/error).
+// Sized to fit `$icon-size-sm` plus a small gap so text does not overlap.
+// Pair with a background icon (see `_icons.scss`) positioned near the left edge.
+$padding-error-left: 3.7rem;
+
+// Icon sizes
+// Small icon size used inside inputs, banners, and inline messages.
+$icon-size-sm: 1.8rem;

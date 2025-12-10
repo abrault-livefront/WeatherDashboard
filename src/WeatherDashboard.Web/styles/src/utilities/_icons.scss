@@ -1,0 +1,38 @@
+// _icons.scss
+// Icon sizing and alignment utilities.
+
+@use '../abstracts/functions' as *;
+@use '../abstracts/mixins' as *;
+
+// Generic icon helpers; `&__lg` is a BEM-like large size variant.
+// Uses clamp() for responsive sizing without media queries.
+.icon {
+  @include vertical-align-middle;
+
+  &--lg {
+    font-size: fluid-size(1.25rem, 2.5vw, 1.75rem);
+    line-height: 1;
+    margin-right: fluid-size(0.375rem, 1vw, 0.5rem);
+    @include vertical-align-middle;
+  }
+}
+
+// Weather Icons sizing helpers.
+// Variants are additive classes on `.wi` (e.g., `.wi.wi--xl`).
+.wi {
+  &.wi--xl {
+    font-size: fluid-size(2rem, 6vw, 8rem);
+    @include vertical-align-middle;
+    padding: fluid-size(0.5rem, 2vw, 1.5rem);
+  }
+
+  &.wi--lg {
+    font-size: fluid-size(1.25rem, 2.5vw, 1.75rem);
+    @include vertical-align-middle;
+  }
+
+  &.wi--wind-cardinal-icon {
+    font-size: fluid-size(1rem, 3vw, 1.5rem);
+    @include vertical-align-middle;
+  }
+}

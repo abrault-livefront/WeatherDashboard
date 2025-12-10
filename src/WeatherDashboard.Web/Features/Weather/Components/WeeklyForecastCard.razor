@@ -1,0 +1,133 @@
+@using System.Globalization
+@using UnitsNet
+@using UnitsNet.Units
+@using WeatherDashboard.Application.Common.Extensions
+@using CardStrings = WeatherDashboard.Web.Localizations.Features.Weather.Components.WeeklyForecastCard
+@using SharedStrings = WeatherDashboard.Web.Localizations.SharedResource
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+    <RadzenText TextAlign="TextAlign.Left"
+                TextStyle="TextStyle.Body1"
+                TagName="TagName.H2"
+                class="font-weight-bold">
+        @_localizer[nameof(CardStrings.CardTitle)]
+    </RadzenText>
+    <RadzenRow>
+        @foreach (var (date, forecast) in Forecasts)
+        {
+            var windDirectionCardinal = WeatherHelpers.GetWindDirection(forecast.WindDirection);
+
+            <RadzenColumn Size="12" SizeMD="6">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween">
+                        <RadzenStack Orientation="Orientation.Vertical" Gap="0">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @date.ToString("ddd", CultureInfo.CurrentCulture)
+                            </RadzenText>
+                            <RadzenText TextStyle="TextStyle.Body2" class="font-weight-bold rz-mb-0">
+                                @date.ToString("d", CultureInfo.CurrentCulture)
+                            </RadzenText>
+                        </RadzenStack>
+
+                        <RadzenStack Orientation="Orientation.Vertical"
+                                     AlignItems="AlignItems.Center"
+                                     JustifyContent="JustifyContent.Center" Gap="0">
+                            <i class="wi wi--lg @WeatherIconMapper.GetWeatherCodeIcon(forecast.WeatherCode)"
+                               aria-hidden="true"></i>
+                            <RadzenText TextStyle="TextStyle.Body2" class="font-weight-bold rz-mb-0">
+                                @_sharedLocalizer[forecast.WeatherCode.ToResourceKey()]
+                            </RadzenText>
+                        </RadzenStack>
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                            @(Temperature.FromDegreesFahrenheit(forecast.Temperature).ToUnit(_regionInfo.IsMetric
+                                    ? TemperatureUnit.DegreeCelsius
+                                    : TemperatureUnit.DegreeFahrenheit)
+                                .ToString("F0", CultureInfo.CurrentCulture))
+                        </RadzenText>
+                    </RadzenStack>
+
+                    <RadzenStack class="rz-mt-2"
+                                 Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween">
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Sunrise)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @WeatherHelpers.FormatTimeWithTimeZoneSuffix(forecast.Sunrise, forecast.TimeZone)
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Sunset)]">
+                            <span class="font-weight-bold rz-mb-0">
+                                @WeatherHelpers.FormatTimeWithTimeZoneSuffix(forecast.Sunset, forecast.TimeZone)
+                            </span>
+                        </WeatherMetricDisplay>
+                    </RadzenStack>
+
+                    <RadzenStack class="rz-mt-2"
+                                 Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween">
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Wind)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @windDirectionCardinal @WeatherHelpers.FormatWindSpeed(forecast.WindSpeed, forecast.WindGusts, _regionInfo.IsMetric)
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.UVIndex)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @forecast.UvIndex (@_sharedLocalizer[WeatherRanges.UvIndexValueRanges.GetValueOrDefault(forecast.UvIndex, "Unknown")])
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+                    </RadzenStack>
+
+                    <RadzenStack class="rz-mt-2"
+                                 Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween">
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Visibility)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @(Length.FromFeet(forecast.Visibility).ToUnit(_regionInfo.IsMetric
+                                        ? LengthUnit.Kilometer
+                                        : LengthUnit.Mile)
+                                    .ToString(CultureInfo.CurrentCulture))
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Humidity)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @(forecast.Humidity)%
+                                (@_sharedLocalizer[WeatherRanges.HumidityValueRanges.GetValueOrDefault(forecast.Humidity, "Unknown")])
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+                    </RadzenStack>
+
+                    <RadzenStack class="rz-mt-2"
+                                 Orientation="Orientation.Horizontal"
+                                 AlignItems="AlignItems.Center"
+                                 JustifyContent="JustifyContent.SpaceBetween">
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.Pressure)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @(Pressure.FromMillibars(forecast.SurfacePressure).ToUnit(_regionInfo.IsMetric
+                                        ? PressureUnit.Hectopascal
+                                        : PressureUnit.InchOfMercury)
+                                    .ToString(CultureInfo.CurrentCulture))
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+
+                        <WeatherMetricDisplay Label="@_sharedLocalizer[nameof(SharedStrings.DewPoint)]">
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold rz-mb-0">
+                                @forecast.DewPoint&deg;
+                            </RadzenText>
+                        </WeatherMetricDisplay>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+        }
+    </RadzenRow>
+</RadzenStack>

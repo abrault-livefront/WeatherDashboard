@@ -1,0 +1,26 @@
+// _validation.scss
+// Form validation styles for valid and invalid states.
+
+@use '../abstracts/colors' as *;
+@use '../abstracts/mixins' as *;
+
+// Validation success outline for modified valid fields (exclude checkboxes).
+.valid.modified:not([type=checkbox]) {
+  @include validation-outline($color-success);
+}
+
+// Validation error outline for invalid fields; uses current text color.
+.invalid {
+  @include validation-outline(currentColor);
+}
+
+// Error color for invalid fields and validation message text.
+.invalid,
+.validation-message {
+  color: $color-error;
+}
+
+// Darker checkbox border variant (e.g., better contrast on light surfaces).
+.darker-border-checkbox.form-check-input {
+  border-color: $color-border-dark;
+}

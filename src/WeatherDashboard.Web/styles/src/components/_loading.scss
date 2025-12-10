@@ -1,0 +1,20 @@
+// _loading.scss
+// Loading overlay component styles.
+
+@use '../abstracts/colors' as *;
+@use '../abstracts/elevation' as *;
+
+// Loading overlay styles for components.
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: $color-overlay-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-index-overlay;
+
+  &--hidden {
+    display: none;
+  }
+}

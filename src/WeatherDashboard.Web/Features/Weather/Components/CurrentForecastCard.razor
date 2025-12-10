@@ -1,0 +1,58 @@
+@using WeatherDashboard.Application.Common.Extensions
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<RadzenCard Variant="Variant.Flat">
+    <RadzenText TextStyle="TextStyle.H2" TagName="TagName.H2" class="sr-only">
+        Current Weather
+    </RadzenText>
+    <RadzenStack Gap="1rem">
+        <RadzenStack Orientation="Orientation.Horizontal"
+                     AlignItems="AlignItems.Center"
+                     JustifyContent="JustifyContent.SpaceBetween">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0.5rem">
+                <RadzenIcon Icon="date_range" aria-hidden="true"/>
+                <RadzenText TextStyle="TextStyle.Body1">@CurrentDayOfWeek</RadzenText>
+            </RadzenStack>
+            <RadzenText TextStyle="TextStyle.Body1">@CurrentTime</RadzenText>
+        </RadzenStack>
+
+        <RadzenRow class="rz-mx-0 rz-my-0">
+            <RadzenColumn Size="5">
+                <RadzenStack Orientation="Orientation.Vertical" AlignItems="AlignItems.Center" Gap="0.5rem">
+                    <i class="wi wi--xl @WeatherIconMapper.GetWeatherCodeIcon(CurrentForecast?.WeatherCode, IsNightTime)"
+                       aria-hidden="true"></i>
+                    <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                        @_sharedLocalizer[CurrentForecast?.WeatherCode.ToResourceKey() ?? string.Empty]
+                    </RadzenText>
+                </RadzenStack>
+            </RadzenColumn>
+            <RadzenColumn Size="7">
+                <RadzenStack class="rz-h-100 rz-w-100"
+                             Orientation="Orientation.Vertical"
+                             AlignItems="AlignItems.End"
+                             JustifyContent="JustifyContent.End"
+                             Gap="0.75rem">
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="1rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                            @Temperature
+                        </RadzenText>
+                        <i class="wi wi--lg wi-thermometer icon icon--lg" aria-hidden="true"></i>
+                    </RadzenStack>
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="0.2rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">@SunriseTime</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            <i class="wi wi-sunrise icon icon--lg rz-ml-1 rz-mr-0" aria-hidden="true"></i>
+                        </RadzenText>
+                    </RadzenStack>
+                    <RadzenStack Orientation="Orientation.Horizontal" Gap="0.2rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">@SunsetTime</RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            <i class="wi wi-sunset icon icon--lg rz-ml-1 rz-mr-0" aria-hidden="true"></i>
+                        </RadzenText>
+                    </RadzenStack>
+                </RadzenStack>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+</RadzenCard>
+

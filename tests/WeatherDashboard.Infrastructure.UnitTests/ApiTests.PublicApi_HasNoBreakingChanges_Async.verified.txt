@@ -1,0 +1,106 @@
+﻿[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://git.visus.io/alan.brault/WeatherDashboard.git")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("WeatherDashboard.Infrastructure.UnitTests")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName=".NET 10.0")]
+namespace WeatherDashboard.Infrastructure.Configuration
+{
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    public sealed class RedisEndPointOptions
+    {
+        public RedisEndPointOptions() { }
+        public string Host { get; init; }
+        public int Port { get; init; }
+    }
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    public sealed class RedisOptions
+    {
+        public const string SectionNameCache = "RedisCache";
+        public const string SectionNameConfig = "RedisConfig";
+        public RedisOptions() { }
+        public int ConnectTimeoutMilliseconds { get; init; }
+        public System.Collections.Generic.IReadOnlyList<WeatherDashboard.Infrastructure.Configuration.RedisEndPointOptions> EndPoints { get; init; }
+        public bool ResolveDns { get; init; }
+        public int SyncTimeoutMilliseconds { get; init; }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Extensions
+{
+    [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+    public static class ServiceCollectionExtensions
+    {
+        public static Microsoft.Extensions.DependencyInjection.IServiceCollection AddInfrastructureServices(this Microsoft.Extensions.DependencyInjection.IServiceCollection services) { }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Persistence
+{
+    public sealed class LuceneDirectoryFactory : System.IDisposable
+    {
+        public LuceneDirectoryFactory() { }
+        public void Dispose() { }
+        public Lucene.Net.Store.MMapDirectory GetOrCreateDirectory(System.IO.DirectoryInfo indexDirectory) { }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Services.BackgroundServices
+{
+    public sealed class LocationIndexerBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
+    {
+        public LocationIndexerBackgroundService(System.IO.DirectoryInfo indexDirectory, WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.ILuceneIndexerService<WeatherDashboard.Domain.Entities.Documents.LocationDocument> indexerService, Microsoft.Extensions.Logging.ILogger<WeatherDashboard.Infrastructure.Services.BackgroundServices.LocationIndexerBackgroundService> logger) { }
+        protected override System.Threading.Tasks.Task ExecuteAsync(System.Threading.CancellationToken stoppingToken) { }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Services.Indexer.Abstractions
+{
+    public interface ILuceneIndexerService<in TDocument> : System.IDisposable, WeatherDashboard.Application.Common.Interfaces.IIndexerService<TDocument>
+        where in TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        Lucene.Net.Search.SearcherManager SearcherManager { get; }
+        void Optimize();
+        void RemoveAll();
+    }
+    public abstract class LuceneIndexerService<TDocument> : System.IDisposable, WeatherDashboard.Application.Common.Interfaces.IIndexerService<TDocument>, WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.ILuceneIndexerService<TDocument>
+        where TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        protected LuceneIndexerService(string indexName, System.IO.DirectoryInfo indexDirectory, Microsoft.Extensions.Logging.ILogger<WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.LuceneIndexerService<TDocument>> logger, WeatherDashboard.Infrastructure.Persistence.LuceneDirectoryFactory directoryFactory, Lucene.Net.Util.LuceneVersion luceneVersion = 15) { }
+        public System.IO.DirectoryInfo IndexDirectory { get; }
+        public string IndexName { get; }
+        public Lucene.Net.Search.SearcherManager SearcherManager { get; }
+        public void Dispose() { }
+        protected virtual void Dispose(bool disposing) { }
+        public void Index(TDocument document) { }
+        public void IndexMany(System.Collections.Generic.IEnumerable<TDocument> documents) { }
+        public void Optimize() { }
+        public void RemoveAll() { }
+        protected abstract Lucene.Net.Documents.Document ToLuceneDocument(TDocument document);
+    }
+}
+namespace WeatherDashboard.Infrastructure.Services.Indexer
+{
+    public sealed class LocationIndexerService : WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.LuceneIndexerService<WeatherDashboard.Domain.Entities.Documents.LocationDocument>
+    {
+        public LocationIndexerService(System.IO.DirectoryInfo indexDirectory, Microsoft.Extensions.Logging.ILogger<WeatherDashboard.Infrastructure.Services.Indexer.LocationIndexerService> logger, WeatherDashboard.Infrastructure.Persistence.LuceneDirectoryFactory directoryFactory) { }
+        protected override Lucene.Net.Documents.Document ToLuceneDocument(WeatherDashboard.Domain.Entities.Documents.LocationDocument document) { }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Services.Search.Abstractions
+{
+    public abstract class LuceneSearchService<TDocument> : System.IDisposable, WeatherDashboard.Application.Common.Interfaces.ISearchService<TDocument>
+        where TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
+    {
+        protected LuceneSearchService(WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.ILuceneIndexerService<TDocument> indexerService, Microsoft.Extensions.Logging.ILogger<WeatherDashboard.Infrastructure.Services.Search.Abstractions.LuceneSearchService<TDocument>> logger, Lucene.Net.Util.LuceneVersion luceneVersion = 15) { }
+        protected Lucene.Net.Util.LuceneVersion LuceneVersion { get; }
+        protected abstract Lucene.Net.Search.Query? CreateQuery(string query);
+        public void Dispose() { }
+        protected virtual void Dispose(bool disposing) { }
+        protected abstract TDocument? FromLuceneDocument(Lucene.Net.Documents.Document document);
+        public WeatherDashboard.Domain.Common.SearchResult<TDocument> Search(string query, int limit = 10) { }
+    }
+}
+namespace WeatherDashboard.Infrastructure.Services.Search
+{
+    public sealed class LocationSearchService : WeatherDashboard.Infrastructure.Services.Search.Abstractions.LuceneSearchService<WeatherDashboard.Domain.Entities.Documents.LocationDocument>
+    {
+        public LocationSearchService(WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.ILuceneIndexerService<WeatherDashboard.Domain.Entities.Documents.LocationDocument> indexerService, Microsoft.Extensions.Logging.ILogger<WeatherDashboard.Infrastructure.Services.Search.LocationSearchService> logger) { }
+        protected override Lucene.Net.Search.Query? CreateQuery(string query) { }
+        protected override WeatherDashboard.Domain.Entities.Documents.LocationDocument? FromLuceneDocument(Lucene.Net.Documents.Document document) { }
+    }
+}

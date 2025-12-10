@@ -1,0 +1,27 @@
+@using FieldStrings = WeatherDashboard.Web.Localizations.Features.Weather.Components.LocationSearchField
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<div class="rz-m-0 rz-w-50 rz-display-flex rz-align-items-center position-relative">
+    <RadzenIcon Icon="search" class="position-absolute left-sm z-1 pointer-events-none" />
+    <RadzenLabel Text="@_localizer[nameof(FieldStrings.SearchCityOrZipCodePlaceholder)]"
+                 Component="LocationSearch"
+                 class="sr-only" />
+    <RadzenAutoComplete Name="LocationSearch"
+                        class="rz-w-100 rz-pl-10"
+                        Data="@SearchResults"
+                        LoadData="OnSearchLocation"
+                        Placeholder="@_localizer[nameof(FieldStrings.SearchCityOrZipCodePlaceholder)]"
+                        SelectedItemChanged="OnSelectedItemChangedAsync"
+                        TextProperty="Locality"
+                        TabIndex="0">
+        <Template Context="location">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Start" Gap="0rem">
+                <RadzenIcon class="rz-mr-2" Icon="location_on" aria-hidden="true"/>
+                <RadzenStack Orientation="Orientation.Vertical" Gap="0">
+                    <RadzenText TextStyle="TextStyle.Body1">@location.Locality</RadzenText>
+                    <RadzenText TextStyle="TextStyle.Body2" class="font-weight-bold">@location.Province</RadzenText>
+                </RadzenStack>
+            </RadzenStack>
+        </Template>
+    </RadzenAutoComplete>
+</div>

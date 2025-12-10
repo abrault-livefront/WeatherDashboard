@@ -1,0 +1,71 @@
+// vendor/_weather-icons.scss
+// Custom weather-icons integration with font-display: swap for optimal performance
+
+// Override the default font path to point to our local fonts directory
+// Path is relative to the compiled CSS output (wwwroot/styles/app.css)
+$wi-path: '../fonts';
+$wi-font-family: weathericons;
+$wi-css-prefix: wi;
+
+// Custom font-face with font-display: swap for optimal performance
+@font-face {
+  font-family: '#{$wi-font-family}';
+  src: url('#{$wi-path}/#{$wi-font-family}-regular-webfont.eot');
+  src: url('#{$wi-path}/#{$wi-font-family}-regular-webfont.eot?#iefix') format('embedded-opentype'),
+       url('#{$wi-path}/#{$wi-font-family}-regular-webfont.woff2') format('woff2'),
+       url('#{$wi-path}/#{$wi-font-family}-regular-webfont.woff') format('woff'),
+       url('#{$wi-path}/#{$wi-font-family}-regular-webfont.ttf') format('truetype'),
+       url('#{$wi-path}/#{$wi-font-family}-regular-webfont.svg#weather_iconsregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Base weather icon styles (from weather-icons-core.scss, excluding duplicate @font-face)
+.#{$wi-css-prefix} {
+  display: inline-block;
+  font-family: '#{$wi-font-family}';
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.#{$wi-css-prefix}-fw {
+  width: 1.4em;
+  text-align: center;
+}
+
+@mixin wi-icon-rotate($degrees, $rotation) {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation});
+  -webkit-transform: rotate($degrees);
+      -ms-transform: rotate($degrees);
+          transform: rotate($degrees);
+}
+
+@mixin wi-icon-flip($horiz, $vert, $rotation) {
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=#{$rotation});
+  -webkit-transform: scale($horiz, $vert);
+      -ms-transform: scale($horiz, $vert);
+          transform: scale($horiz, $vert);
+}
+
+.#{$wi-css-prefix}-rotate-90  { @include wi-icon-rotate(90deg, 1);  }
+.#{$wi-css-prefix}-rotate-180 { @include wi-icon-rotate(180deg, 2); }
+.#{$wi-css-prefix}-rotate-270 { @include wi-icon-rotate(270deg, 3); }
+
+.#{$wi-css-prefix}-flip-horizontal { @include wi-icon-flip(-1, 1, 0); }
+.#{$wi-css-prefix}-flip-vertical   { @include wi-icon-flip(1, -1, 2); }
+
+// Import weather-icons library files
+// Note: Using @import here because the weather-icons library is built around it.
+// The --quiet-deps flag in package.json suppresses deprecation warnings from dependencies.
+@import '../../../node_modules/weather-icons/sass/weather-icons-variables.scss';
+@import '../../../node_modules/weather-icons/sass/weather-icons-classes.scss';
+@import '../../../node_modules/weather-icons/sass/mappings/wi-yahoo.scss';
+@import '../../../node_modules/weather-icons/sass/mappings/wi-forecast-io.scss';
+@import '../../../node_modules/weather-icons/sass/mappings/wi-wmo4680.scss';
+@import '../../../node_modules/weather-icons/sass/mappings/wi-owm.scss';
+@import '../../../node_modules/weather-icons/sass/mappings/wi-wunderground.scss';
+@import '../../../node_modules/weather-icons/sass/weather-icons-wind.scss';

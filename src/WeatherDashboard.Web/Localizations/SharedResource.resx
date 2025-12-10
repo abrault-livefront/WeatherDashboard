@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="DewPoint" xml:space="preserve">
+        <value>Dew Point</value>
+    </data>
+    <data name="Humidity" xml:space="preserve">
+        <value>Humidity</value>
+    </data>
+    <data name="Pressure" xml:space="preserve">
+        <value>Pressure</value>
+    </data>
+    <data name="Sunrise" xml:space="preserve">
+        <value>Sunrise</value>
+    </data>
+    <data name="Sunset" xml:space="preserve">
+        <value>Sunset</value>
+    </data>
+    <data name="UVIndex" xml:space="preserve">
+        <value>UV Index</value>
+    </data>
+    <data name="Visibility" xml:space="preserve">
+        <value>Visibility</value>
+    </data>
+    <data name="Wind" xml:space="preserve">
+        <value>Wind</value>
+    </data>
+    <data name="WindStatus" xml:space="preserve">
+        <value>Wind Status</value>
+    </data>
+    <data name="WeatherCode_ClearSky" xml:space="preserve">
+        <value>Clear</value>
+    </data>
+    <data name="WeatherCode_MainlyClear" xml:space="preserve">
+        <value>Mostly Clear</value>
+    </data>
+    <data name="WeatherCode_PartlyCloudy" xml:space="preserve">
+        <value>Partly Cloudy</value>
+    </data>
+    <data name="WeatherCode_Overcast" xml:space="preserve">
+        <value>Overcast</value>
+    </data>
+    <data name="WeatherCode_Fog" xml:space="preserve">
+        <value>Fog</value>
+    </data>
+    <data name="WeatherCode_DepositingRimeFog" xml:space="preserve">
+        <value>Freezing Fog</value>
+    </data>
+    <data name="WeatherCode_DrizzleLight" xml:space="preserve">
+        <value>Light Drizzle</value>
+    </data>
+    <data name="WeatherCode_DrizzleModerate" xml:space="preserve">
+        <value>Moderate Drizzle</value>
+    </data>
+    <data name="WeatherCode_DrizzleDense" xml:space="preserve">
+        <value>Heavy Drizzle</value>
+    </data>
+    <data name="WeatherCode_FreezingDrizzleLight" xml:space="preserve">
+        <value>Light Freezing Drizzle</value>
+    </data>
+    <data name="WeatherCode_FreezingDrizzleDense" xml:space="preserve">
+        <value>Heavy Freezing Drizzle</value>
+    </data>
+    <data name="WeatherCode_RainSlight" xml:space="preserve">
+        <value>Light Rain</value>
+    </data>
+    <data name="WeatherCode_RainModerate" xml:space="preserve">
+        <value>Moderate Rain</value>
+    </data>
+    <data name="WeatherCode_RainHeavy" xml:space="preserve">
+        <value>Heavy Rain</value>
+    </data>
+    <data name="WeatherCode_FreezingRainLight" xml:space="preserve">
+        <value>Light Freezing Rain</value>
+    </data>
+    <data name="WeatherCode_FreezingRainHeavy" xml:space="preserve">
+        <value>Heavy Freezing Rain</value>
+    </data>
+    <data name="WeatherCode_SnowFallSlight" xml:space="preserve">
+        <value>Light Snow</value>
+    </data>
+    <data name="WeatherCode_SnowFallModerate" xml:space="preserve">
+        <value>Moderate Snow</value>
+    </data>
+    <data name="WeatherCode_SnowFallHeavy" xml:space="preserve">
+        <value>Heavy Snow</value>
+    </data>
+    <data name="WeatherCode_SnowGrains" xml:space="preserve">
+        <value>Snow Grains</value>
+    </data>
+    <data name="WeatherCode_RainShowersSlight" xml:space="preserve">
+        <value>Light Rain Showers</value>
+    </data>
+    <data name="WeatherCode_RainShowersModerate" xml:space="preserve">
+        <value>Moderate Rain Showers</value>
+    </data>
+    <data name="WeatherCode_RainShowersViolent" xml:space="preserve">
+        <value>Heavy Rain Showers</value>
+    </data>
+    <data name="WeatherCode_SnowShowersSlight" xml:space="preserve">
+        <value>Light Snow Showers</value>
+    </data>
+    <data name="WeatherCode_SnowShowersHeavy" xml:space="preserve">
+        <value>Heavy Snow Showers</value>
+    </data>
+    <data name="WeatherCode_ThunderstormSlightOrModerate" xml:space="preserve">
+        <value>Thunderstorm</value>
+    </data>
+    <data name="WeatherCode_ThunderstormWithHail" xml:space="preserve">
+        <value>Thunderstorm with Hail</value>
+    </data>
+    <data name="WeatherCode_ThunderstormWithSevereHail" xml:space="preserve">
+        <value>Severe Thunderstorm With Large Hail</value>
+    </data>
+    <data name="Weather_Humidity_VeryLow" xml:space="preserve">
+        <value>Very Low</value>
+    </data>
+    <data name="Weather_Humidity_Low" xml:space="preserve">
+        <value>Low</value>
+    </data>
+    <data name="Weather_Humidity_Comfortable" xml:space="preserve">
+        <value>Comfortable</value>
+    </data>
+    <data name="Weather_UvIndex_Moderate" xml:space="preserve">
+        <value>Moderate</value>
+    </data>
+    <data name="Weather_Humidity_High" xml:space="preserve">
+        <value>High</value>
+    </data>
+    <data name="Weather_Humidity_VeryHigh" xml:space="preserve">
+        <value>Very High</value>
+    </data>
+    <data name="Weather_UvIndex_Low" xml:space="preserve">
+        <value>Low</value>
+    </data>
+    <data name="Weather_Humidity_Moderate" xml:space="preserve">
+        <value>Moderate</value>
+    </data>
+    <data name="Weather_UvIndex_High" xml:space="preserve">
+        <value>High</value>
+    </data>
+    <data name="Weather_UvIndex_VeryHigh" xml:space="preserve">
+        <value>Very High</value>
+    </data>
+    <data name="Weather_UvIndex_Extreme" xml:space="preserve">
+        <value>Extreme</value>
+    </data>
+</root>

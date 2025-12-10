@@ -1,0 +1,95 @@
+@using CardStrings = WeatherDashboard.Web.Localizations.Features.Weather.Components.CurrentHighlightsCard
+@using SharedStrings = WeatherDashboard.Web.Localizations.SharedResource
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<RadzenCard Variant="Variant.Flat">
+    <RadzenStack Gap="0.5rem">
+        <RadzenText TextAlign="TextAlign.Left"
+                    TextStyle="TextStyle.Body1"
+                    TagName="TagName.H2"
+                    class="font-weight-bold">
+            @_localizer[nameof(CardStrings.CardTitle)]
+        </RadzenText>
+        <RadzenRow JustifyContent="JustifyContent.Start">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                            <i class="wi @WindSpeedIcon icon icon--lg"
+                               aria-hidden="true"></i>&nbsp;@_sharedLocalizer[nameof(SharedStrings.WindStatus)]
+                        </RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            <i class="wi wi-wind wi--wind-cardinal-icon @WindDirectionIcon"
+                               aria-hidden="true"></i> @WindDirectionCardinal @WeatherHelpers.FormatWindSpeed(WindSpeed, WindGusts, _regionInfo.IsMetric)
+                        </RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                            <i class="wi wi-humidity icon icon--lg"
+                               aria-hidden="true"></i>&nbsp;@_sharedLocalizer[nameof(SharedStrings.Humidity)]
+                        </RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            @(Humidity)%
+                            (@_sharedLocalizer[WeatherRanges.HumidityValueRanges.GetValueOrDefault(Humidity, "Unknown")])
+                        </RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                            <RadzenIcon class="icon icon--lg" Icon="dew_point"
+                                        aria-hidden="true"/>&nbsp;@_sharedLocalizer[nameof(SharedStrings.DewPoint)]
+                        </RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">@DewPoint&deg;</RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+        </RadzenRow>
+        <RadzenRow JustifyContent="JustifyContent.Start">
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                            <RadzenIcon Icon="brightness_empty" aria-hidden="true"/>
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                                @_sharedLocalizer[nameof(SharedStrings.UVIndex)]</RadzenText>
+                        </RadzenStack>
+                        <RadzenText TextStyle="TextStyle.Body1">
+                            @UvIndex (@_sharedLocalizer[WeatherRanges.UvIndexValueRanges.GetValueOrDefault(UvIndex, "Unknown")])
+                        </RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenStack Orientation="Orientation.Horizontal" Gap="0.5rem">
+                            <RadzenIcon Icon="visibility" aria-hidden="true"/>
+                            <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                                @_sharedLocalizer[nameof(SharedStrings.Visibility)]</RadzenText>
+                        </RadzenStack>
+                        <RadzenText TextStyle="TextStyle.Body1">@Visibility</RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+            <RadzenColumn Size="12" SizeMD="4">
+                <RadzenCard Variant="Variant.Flat">
+                    <RadzenStack Orientation="Orientation.Vertical" Gap="0.5rem">
+                        <RadzenText TextStyle="TextStyle.Body1" class="font-weight-bold">
+                            <RadzenIcon class="icon icon--lg" Icon="compress"
+                                        aria-hidden="true"/>&nbsp;@_sharedLocalizer[nameof(SharedStrings.Pressure)]
+                        </RadzenText>
+                        <RadzenText TextStyle="TextStyle.Body1">@SurfacePressure</RadzenText>
+                    </RadzenStack>
+                </RadzenCard>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenStack>
+    <RadzenStack/>
+</RadzenCard>

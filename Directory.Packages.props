@@ -1,0 +1,69 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="AutoFixture.AutoNSubstitute" Version="4.18.1" />
+    <PackageVersion Include="AutoFixture.Xunit3" Version="4.19.0" />
+    <PackageVersion Include="AwesomeAssertions" Version="9.3.0" />
+    <PackageVersion Include="bunit" Version="2.1.1" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Fluxor.Blazor.Web" Version="6.9.0" />
+    <PackageVersion Include="Fluxor.Blazor.Web.ReduxDevTools" Version="6.9.0" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4" />
+    <PackageVersion Include="Lucene.Net" Version="4.8.0-beta00017" />
+    <PackageVersion Include="Lucene.Net.Analysis.Common" Version="4.8.0-beta00017" />
+    <PackageVersion Include="Lucene.Net.QueryParser" Version="4.8.0-beta00017" />
+    <PackageVersion Include="MessagePack" Version="3.1.4" />
+    <PackageVersion Include="Meziantou.Analyzer" Version="2.0.257" />
+    <PackageVersion Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageVersion Include="NeoSmart.Caching.Sqlite.AspNetCore" Version="9.0.1" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="PublicApiGenerator" Version="11.5.3" />
+    <PackageVersion Include="Radzen.Blazor" Version="8.3.5" />
+    <PackageVersion Include="RichardSzalay.MockHttp" Version="7.0.0" />
+    <PackageVersion Include="Riok.Mapperly" Version="4.3.0" />
+    <PackageVersion Include="Serilog" Version="4.3.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Sinks.OpenTelemetry" Version="4.2.0" />
+    <PackageVersion Include="TimeZoneNames" Version="7.0.0" />
+    <PackageVersion Include="UnitsNet" Version="5.75.0" />
+    <PackageVersion Include="Verify" Version="31.8.0" />
+    <PackageVersion Include="Verify.DiffPlex" Version="3.1.2" />
+    <PackageVersion Include="Verify.XunitV3" Version="31.8.0" />
+    <PackageVersion Include="xunit.v3" Version="3.2.1" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="ZiggyCreatures.FusionCache" Version="2.4.0" />
+    <PackageVersion Include="ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis" Version="2.4.0" />
+    <PackageVersion Include="ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack" Version="2.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Meziantou.Analyzer">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <PackageReference Include="AutoFixture" />
+    <PackageReference Include="AutoFixture.AutoNSubstitute" />
+    <PackageReference Include="AutoFixture.Xunit3" />
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="PublicApiGenerator" />
+    <PackageReference Include="Verify" />
+    <PackageReference Include="Verify.DiffPlex" />
+    <PackageReference Include="Verify.XunitV3" />
+  </ItemGroup>
+</Project>

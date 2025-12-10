@@ -1,0 +1,208 @@
+// _position.scss
+// Position, z-index, and pointer-event utilities.
+
+// Position types
+.position-relative {
+  position: relative;
+}
+
+.position-absolute {
+  position: absolute;
+}
+
+.position-fixed {
+  position: fixed;
+}
+
+.position-sticky {
+  position: sticky;
+}
+
+.position-static {
+  position: static;
+}
+
+// Positioning values - commonly used spacing
+// These can be combined with position-absolute/fixed/sticky
+.top-0 {
+  top: 0;
+}
+
+.right-0 {
+  right: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.top-xs {
+  top: 0.5rem; // $padding-xs
+}
+
+.right-xs {
+  right: 0.5rem;
+}
+
+.bottom-xs {
+  bottom: 0.5rem;
+}
+
+.left-xs {
+  left: 0.5rem;
+}
+
+.top-sm {
+  top: 0.75rem;
+}
+
+.right-sm {
+  right: 0.75rem;
+}
+
+.bottom-sm {
+  bottom: 0.75rem;
+}
+
+.left-sm {
+  left: 0.75rem;
+}
+
+.top-md {
+  top: 1rem; // $padding-sm
+}
+
+.right-md {
+  right: 1rem;
+}
+
+.bottom-md {
+  bottom: 1rem;
+}
+
+.left-md {
+  left: 1rem;
+}
+
+.top-lg {
+  top: 1.25rem; // $padding-md
+}
+
+.right-lg {
+  right: 1.25rem;
+}
+
+.bottom-lg {
+  bottom: 1.25rem;
+}
+
+.left-lg {
+  left: 1.25rem;
+}
+
+// Inset utilities - sets all four sides at once
+.inset-0 {
+  inset: 0;
+}
+
+// Z-index utilities - common layers
+.z-0 {
+  z-index: 0;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.z-10 {
+  z-index: 10;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.z-100 {
+  z-index: 100;
+}
+
+.z-999 {
+  z-index: 999;
+}
+
+.z-9999 {
+  z-index: 9999;
+}
+
+.z-auto {
+  z-index: auto;
+}
+
+// Pointer events utilities
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+// Font weight utilities
+.font-weight-normal {
+  font-weight: 400;
+}
+
+.font-weight-medium {
+  font-weight: 500;
+}
+
+.font-weight-semibold {
+  font-weight: 600;
+}
+
+.font-weight-bold {
+  font-weight: 700;
+}
+
+.font-weight-bolder {
+  font-weight: 900;
+}
+
+// Screen reader only (visually hidden but accessible)
+// Hides content visually while keeping it accessible to screen readers.
+// Based on modern a11y best practices.
+.sr-only,
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// Focusable variant - makes sr-only content visible when focused
+// Useful for skip links and other keyboard-accessible hidden elements
+.sr-only-focusable:not(:focus),
+.visually-hidden-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

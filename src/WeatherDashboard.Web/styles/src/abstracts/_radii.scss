@@ -1,0 +1,11 @@
+// _radii.scss
+// Border radius tokens for consistent corner rounding.
+
+// Small radius for subtle rounding on inputs and small components.
+$border-radius-sm: 0.25rem;
+
+// Medium radius for cards, buttons, and containers.
+$border-radius-md: 0.5rem;
+
+// Large radius for prominent components and featured cards.
+$border-radius-lg: 1rem;

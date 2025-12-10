@@ -1,0 +1,69 @@
+@page "/"
+@using WeatherDashboard.Web.Features.Common
+@using WeatherDashboard.Web.Features.Weather.Components
+@using HomeStrings = Localizations.Features.Weather.Home
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+<PageTitle>@_localizer[nameof(HomeStrings.PageTitle)]</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H1" TagName="TagName.H1" class="sr-only">
+    @_localizer[nameof(HomeStrings.PageTitle)]
+</RadzenText>
+
+<RadzenStack Gap="1rem">
+    <LoadingOverlay IsLoading="@_weatherState.Value.IsLoading"/>
+    <RadzenRow JustifyContent="JustifyContent.SpaceBetween" AlignItems="AlignItems.Center" class="rz-mb-4">
+        <RadzenColumn Size="12" SizeMD="2">
+            <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+                @{
+                    <RadzenIcon Icon="location_on" aria-hidden="true"/>
+                    if (CurrentLocation is not null)
+                    {
+                        <span class="rz-ml-2 font-weight-bold">
+                            @CurrentLocation?.Locality, @CurrentLocation?.ProvinceCode
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="rz-ml-2 font-weight-bold">@_localizer[nameof(HomeStrings.NoLocation)]</span>
+                    }
+                }
+            </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenColumn Size="12" SizeMD="9">
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         JustifyContent="JustifyContent.Center"
+                         AlignItems="AlignItems.Center">
+                <LocationSearchField/>
+            </RadzenStack>
+        </RadzenColumn>
+
+        <RadzenColumn Size="1">
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         JustifyContent="JustifyContent.End"
+                         AlignItems="AlignItems.Center">
+                <RadzenAppearanceToggle class="rz-mt-2"/>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow JustifyContent="JustifyContent.Start" AlignItems="AlignItems.Stretch">
+        <RadzenColumn Size="12" SizeMD="3" class="equal-height--col">
+            <CurrentForecastCard/>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="9" class="equal-height--col">
+            <div class="equal-height--card">
+                <CurrentHighlightsCard/>
+            </div>
+        </RadzenColumn>
+    </RadzenRow>
+
+    <RadzenRow JustifyContent="JustifyContent.Start">
+        <RadzenColumn Size="12">
+            <div class="equal-height--card">
+                <WeeklyForecastCard/>
+            </div>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>

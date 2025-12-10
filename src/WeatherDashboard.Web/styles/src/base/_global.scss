@@ -1,0 +1,14 @@
+// _global.scss
+// Global overrides and base element styles.
+
+@use '../abstracts/typography' as *;
+
+// Override Radzen's default font family with Inter variable font
+:root {
+  --rz-text-font-family: #{$font-family-base};
+}
+
+// Remove default outline for focused H1 (handled by custom focus styles elsewhere).
+h1:focus {
+  outline: none;
+}

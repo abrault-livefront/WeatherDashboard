@@ -1,0 +1,27 @@
+// _layout.scss
+// Layout utilities for common flexbox patterns.
+
+@use '../abstracts/mixins' as *;
+
+// Equal-height layout utilities.
+.equal-height {
+  // Column wrapper becomes flex to enable equal height children.
+  &--col {
+    display: flex;
+  }
+
+  // Card container fills available space and makes inner content flex.
+  &--card {
+    @include full-size-flex;
+
+    // Ensure direct children flex to fill vertical space proportionally.
+    > * {
+      flex: 1 1 auto;
+    }
+
+    // Radzen card content fills height and stacks its children.
+    .rz-card {
+      @include card-fill;
+    }
+  }
+}
