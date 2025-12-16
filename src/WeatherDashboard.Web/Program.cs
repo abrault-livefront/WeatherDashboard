@@ -71,6 +71,7 @@ internal static class Program
             WebApplication app = builder.Build();
 
             ConfigureMiddleware(app);
+            ConfigureSecurityHeaders(app);
 
             await app.RunAsync().ConfigureAwait(false);
         }
@@ -281,6 +282,53 @@ internal static class Program
             o.Cookie.Path = "/";
             o.Cookie.SameSite = SameSiteMode.Strict;
             o.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+        });
+    }
+
+    /// <summary>
+    ///     Configures security headers including Content Security Policy (CSP) and frame options.
+    /// </summary>
+    /// <param name="app">The web application.</param>
+    /// <remarks>
+    ///     <para>
+    ///         Configures the following security headers:
+    ///     </para>
+    ///     <list type="bullet">
+    ///         <item>
+    ///             <description>
+    ///                 Content Security Policy (CSP) that restricts resource loading to prevent XSS attacks.
+    ///                 Default sources are limited to self, with specific allowances for images (including data URIs
+    ///                 and HTTP for demo purposes), scripts (with unsafe-eval and unsafe-inline for Blazor),
+    ///                 and styles (with unsafe-inline). Connect sources allow self and insecure WebSockets for demo purposes.
+    ///                 Object sources are blocked entirely.
+    ///             </description>
+    ///         </item>
+    ///         <item>
+    ///             <description>
+    ///                 X-Frame-Options set to SAMEORIGIN to prevent clickjacking attacks by disallowing
+    ///                 the application from being embedded in frames on other domains.
+    ///             </description>
+    ///         </item>
+    ///     </list>
+    /// </remarks>
+    private static void ConfigureSecurityHeaders(WebApplication app)
+    {
+        app.UseSecurityHeaders(p =>
+        {
+            p.AddContentSecurityPolicy(o =>
+            {
+                o.AddDefaultSrc().Self();
+                o.AddConnectSrc().Self().OverInsecureWs(); // for the purposes of this demo, we allow ws
+                o.AddImgSrc().Data().OverInsecureHttp(); // for the purposes of this demo, we allow http
+                o.AddObjectSrc().None();
+                o.AddScriptSrc()
+                 .Self()
+                 .UnsafeEval()
+                 .UnsafeInline();
+                o.AddStyleSrc().Self().UnsafeInline();
+            });
+
+            p.AddFrameOptionsSameOrigin();
         });
     }
 

@@ -178,10 +178,11 @@ The Domain layer has **zero external dependencies** to maintain pure business lo
 | [Fluxor.Blazor.Web](https://www.nuget.org/packages/Fluxor.Blazor.Web/) | 6.9.0 | Redux-like state management for Blazor |
 | [Fluxor.Blazor.Web.ReduxDevTools](https://www.nuget.org/packages/Fluxor.Blazor.Web.ReduxDevTools/) | 6.9.0 | Redux DevTools integration (dev only) |
 | [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/) | 2025.2.4 | Code annotations for IDE analysis |
-| [Microsoft.AspNetCore.DataProtection.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNetCore.DataProtection.StackExchangeRedis/) | 10.0.0 | Data protection key storage in Redis |
-| [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/) | 10.0.0 | Redis distributed cache |
+| [Microsoft.AspNetCore.DataProtection.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNetCore.DataProtection.StackExchangeRedis/) | 10.0.1 | Data protection key storage in Redis |
+| [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/) | 10.0.1 | Redis distributed cache |
 | [NeoSmart.Caching.Sqlite.AspNetCore](https://www.nuget.org/packages/NeoSmart.Caching.Sqlite.AspNetCore/) | 9.0.1 | SQLite cache for development |
-| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/) | 8.3.5 | UI component library with Material theme and WCAG compliance |
+| [NetEscapades.AspNetCore.SecurityHeaders](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/) | 1.3.0 | Middleware for adding security headers (CSP, X-Frame-Options) |
+| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/) | 8.4.0 | UI component library with Material theme and WCAG compliance |
 | [Serilog](https://www.nuget.org/packages/Serilog/) | 4.3.0 | Structured logging framework |
 | [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/) | 10.0.0 | ASP.NET Core integration for Serilog |
 | [Serilog.Enrichers.CorrelationId](https://www.nuget.org/packages/Serilog.Enrichers.CorrelationId/) | 3.0.1 | Correlation ID enrichment |
@@ -608,6 +609,16 @@ The project uses different mapping approaches depending on the layer:
 - **Anti-forgery Tokens**: Environment-specific cookie names for CSRF protection
 - **Application Name Isolation**: By environment for multi-environment deployments
 - **Certificate Generation**: Use `generate-pfx.sh` to create the required PFX certificate
+- **Security Headers**: HTTP security headers configured via NetEscapades.AspNetCore.SecurityHeaders
+  - **Content Security Policy (CSP)**: Restricts resource loading to prevent XSS attacks
+    - `default-src 'self'` - Default sources limited to same origin
+    - `connect-src 'self' ws:` - Connections allow self and insecure WebSockets (for demo purposes)
+    - `img-src data: http:` - Images allow data URIs and HTTP (for demo purposes)
+    - `object-src 'none'` - Object embeds disabled
+    - `script-src 'self' 'unsafe-eval' 'unsafe-inline'` - Scripts from self with unsafe eval/inline required for Blazor
+    - `style-src 'self' 'unsafe-inline'` - Styles from self with inline styles allowed
+  - **X-Frame-Options: SAMEORIGIN** - Prevents clickjacking by disallowing iframe embedding from other domains
+  - Implementation: Program.cs:314 (ConfigureSecurityHeaders method)
 
 ## Testing
 
