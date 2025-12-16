@@ -224,10 +224,10 @@ graph TB
     Infra --> App
     App --> Domain
 
-    style Domain fill:#e1f5e1
-    style App fill:#e3f2fd
-    style Infra fill:#fff3e0
-    style Web fill:#f3e5f5
+    style Domain fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
+    style App fill:#2196f3,stroke:#1565c0,stroke-width:2px,color:#fff
+    style Infra fill:#ff9800,stroke:#e65100,stroke-width:2px,color:#000
+    style Web fill:#9c27b0,stroke:#6a1b9a,stroke-width:2px,color:#fff
 ```
 
 **Key Principles:**
@@ -264,12 +264,12 @@ graph LR
     Doc --> Svc
     Svc --> Impl
 
-    style Entity fill:#c8e6c9
-    style VO fill:#c8e6c9
-    style Coll fill:#c8e6c9
-    style Doc fill:#c8e6c9
-    style Svc fill:#bbdefb
-    style Impl fill:#ffe0b2
+    style Entity fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
+    style VO fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
+    style Coll fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
+    style Doc fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
+    style Svc fill:#2196f3,stroke:#1565c0,stroke-width:2px,color:#fff
+    style Impl fill:#ff9800,stroke:#e65100,stroke-width:2px,color:#000
 ```
 
 **Patterns Used:**
@@ -300,12 +300,12 @@ graph LR
     Reducer -->|Updates| State
     State -->|Subscribes| Component
 
-    style Component fill:#f3e5f5
-    style Action fill:#fff9c4
-    style Effect fill:#ffccbc
-    style Service fill:#b2dfdb
-    style Reducer fill:#c5cae9
-    style State fill:#c8e6c9
+    style Component fill:#9c27b0,stroke:#6a1b9a,stroke-width:2px,color:#fff
+    style Action fill:#fbc02d,stroke:#f57f17,stroke-width:2px,color:#000
+    style Effect fill:#ff5722,stroke:#bf360c,stroke-width:2px,color:#fff
+    style Service fill:#009688,stroke:#004d40,stroke-width:2px,color:#fff
+    style Reducer fill:#3f51b5,stroke:#1a237e,stroke-width:2px,color:#fff
+    style State fill:#4caf50,stroke:#2e7d32,stroke-width:2px,color:#000
 ```
 
 **Flow:**
