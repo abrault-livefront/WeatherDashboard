@@ -400,7 +400,7 @@ graph LR
 
 ### Running with Docker
 
-The application includes Docker support with docker-compose for local development and production deployment.
+The application includes Docker support with docker-compose for production deployment.
 
 1. **Build and Run with Docker Compose**
 
@@ -424,7 +424,8 @@ The application includes Docker support with docker-compose for local developmen
    ```
 
 **Docker Configuration:**
-- Application uses production configuration (`appsettings.Production.json`)
+- Uses production configuration (`appsettings.Production.json`) with Redis for caching and data protection
+- Not recommended for local development (use `dotnet run` with SQLite cache instead)
 - Redis cache uses LRU eviction policy (256MB max memory)
 - Redis config uses no-eviction policy (128MB max memory)
 - Health checks enabled for all services
