@@ -7,15 +7,15 @@
 
     <RadzenTheme Theme="material" Wcag="true"/>
 
-    <link rel="preload" href="styles/app.css" as="style"/>
-    <link rel="stylesheet" href="styles/app.css"/>
+    <link rel="preload" href="@Assets["styles/app.css"]" as="style"/>
+    <link rel="stylesheet" href="@Assets["styles/app.css"]"/>
 
     <HeadOutlet @rendermode="InteractiveServer"/>
 </head>
 
 <body>
 <Routes @rendermode="InteractiveServer"/>
-<script src="_framework/blazor.web.js"></script>
+<script src="@Assets["_framework/blazor.web.js"]"></script>
 <script src="_content/Radzen.Blazor/Radzen.Blazor.min.js?v=@(typeof(Colors).Assembly.GetName().Version)"></script>
 </body>
 
