@@ -24,7 +24,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://git.visus.io/alan.brault/WeatherDashboard.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/abrault-livefront/WeatherDashboard.git</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(CI)' == 'true'">
