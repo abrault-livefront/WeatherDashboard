@@ -32,6 +32,7 @@ A modern, interactive weather dashboard built with Blazor Server, demonstrating 
   - [Cookie Settings](#cookie-settings)
   - [Default Location](#default-location)
   - [Local Storage](#local-storage)
+  - [Localization](#localization)
   - [Redis Configuration](#redis-configuration)
 - [External Services](#external-services)
   - [Open-Meteo Weather API](#open-meteo-weather-api)
@@ -491,6 +492,32 @@ Browser local storage keys are configurable:
 
 - Follows the same environment-aware naming pattern as cookies
 - Configuration class: `Configuration/LocalStorageSettings.cs`
+
+### Localization
+
+The application supports multiple languages through ASP.NET Core's localization system using resource files (`.resx`).
+
+**Currently Supported Languages:**
+- **English (en-US)** - Default language
+- **Spanish (es)** - Spanish localization
+
+**Switching Languages:**
+
+Use the `culture` query string parameter to change the application language:
+
+```
+http://localhost:5299/?culture=es     # Switch to Spanish
+http://localhost:5299/?culture=en-US  # Switch to English
+```
+
+The selected language preference is automatically saved in a culture cookie that persists for one year, so subsequent visits will remember the user's language choice.
+
+**Implementation Details:**
+- Resource files located in `src/WeatherDashboard.Web/Localizations/`
+- Culture persistence handled by `QueryCultureCookieMiddleware`
+- Environment-specific cookie names for isolation (e.g., `WeatherDashboard.Web.Culture.Development`)
+- Supports all valid .NET culture codes
+- Default culture: en-US
 
 ### Redis Configuration
 
