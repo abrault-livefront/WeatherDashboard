@@ -167,10 +167,10 @@ The Domain layer has **zero external dependencies** to maintain pure business lo
 | [Lucene.Net](https://www.nuget.org/packages/Lucene.Net/) | 4.8.0-beta00017 | Full-text search engine core |
 | [Lucene.Net.Analysis.Common](https://www.nuget.org/packages/Lucene.Net.Analysis.Common/) | 4.8.0-beta00017 | Text analyzers for Lucene indexing |
 | [Lucene.Net.QueryParser](https://www.nuget.org/packages/Lucene.Net.QueryParser/) | 4.8.0-beta00017 | Query parsing for search functionality |
-| [Microsoft.Extensions.Hosting.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Hosting.Abstractions/) | 10.0.0 | Hosted services support |
-| [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) | 10.0.0 | HTTP client factory |
-| [Microsoft.Extensions.Http.Resilience](https://www.nuget.org/packages/Microsoft.Extensions.Http.Resilience/) | 10.0.0 | Resilience patterns (retry, circuit breaker, timeout) |
-| [Microsoft.Extensions.Logging.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Abstractions/) | 10.0.0 | Logging abstractions |
+| [Microsoft.Extensions.Hosting.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Hosting.Abstractions/) | 10.0.1 | Hosted services support |
+| [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) | 10.0.1 | HTTP client factory |
+| [Microsoft.Extensions.Http.Resilience](https://www.nuget.org/packages/Microsoft.Extensions.Http.Resilience/) | 10.1.0 | Resilience patterns (retry, circuit breaker, timeout) |
+| [Microsoft.Extensions.Logging.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Abstractions/) | 10.0.1 | Logging abstractions |
 
 ### Web Layer
 
@@ -183,7 +183,7 @@ The Domain layer has **zero external dependencies** to maintain pure business lo
 | [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/) | 10.0.1 | Redis distributed cache |
 | [NeoSmart.Caching.Sqlite.AspNetCore](https://www.nuget.org/packages/NeoSmart.Caching.Sqlite.AspNetCore/) | 9.0.1 | SQLite cache for development |
 | [NetEscapades.AspNetCore.SecurityHeaders](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/) | 1.3.0 | Middleware for adding security headers (CSP, X-Frame-Options) |
-| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/) | 8.4.0 | UI component library with Material theme and WCAG compliance |
+| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/) | 8.4.1 | UI component library with Material theme and WCAG compliance |
 | [Serilog](https://www.nuget.org/packages/Serilog/) | 4.3.0 | Structured logging framework |
 | [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/) | 10.0.0 | ASP.NET Core integration for Serilog |
 | [Serilog.Enrichers.CorrelationId](https://www.nuget.org/packages/Serilog.Enrichers.CorrelationId/) | 3.0.1 | Correlation ID enrichment |
