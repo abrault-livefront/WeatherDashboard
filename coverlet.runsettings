@@ -4,9 +4,10 @@
     <DataCollectors>
       <DataCollector friendlyName="XPlat Code Coverage">
         <Configuration>
-          <Format>cobertura,opencover</Format>
+          <Format>cobertura</Format>
           <ExcludeByAttribute>GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
           <ExcludeByFile>**/obj/**/*.cs,**/*GeneratedMessagePackResolver*.cs,**/*.g.cs</ExcludeByFile>
+          <Exclude>[*]MessagePack.GeneratedMessagePackResolver,[*]MessagePack.Resolvers.*,[*]MessagePack.Formatters.*Formatter</Exclude>
           <SingleHit>false</SingleHit>
           <UseSourceLink>true</UseSourceLink>
           <IncludeTestAssembly>false</IncludeTestAssembly>
