@@ -39,9 +39,9 @@
       },
       "bunit": {
         "type": "Direct",
-        "requested": "[2.3.4, )",
-        "resolved": "2.3.4",
-        "contentHash": "iurAHNYVvcTxOGb2wF/+eJhzndNKzPFnvQbx0B5DwCzy0r/3gkH5sh81CnPf5mNEhKuflQgF6rsEuuKc+oLHTw==",
+        "requested": "[2.4.2, )",
+        "resolved": "2.4.2",
+        "contentHash": "UDsuMg2ctqwJPTkt4dr/PxDMJo4MlEDeEH1M6biFgOfeNIb1e7sH6wYH0WmQ33IlVtn7ITJVXrwD7nA0yQa1Rw==",
         "dependencies": {
           "AngleSharp": "1.4.0",
           "AngleSharp.Css": "1.0.0-beta.157",
@@ -65,9 +65,9 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[2.0.263, )",
-        "resolved": "2.0.263",
-        "contentHash": "Pbx5I+Djo0vWp0ykEZLVuHVaNVmyEzoOe50IpSqN0P+BRFx0lULhiHMaEWym5MOwoRluv/mTWi4e+BPBraLdIA=="
+        "requested": "[2.0.266, )",
+        "resolved": "2.0.266",
+        "contentHash": "wsD1DX2Fo4G8l9lbktn/+u3SeplHzJ6EGZX6X+Mw8S3LEz4vaS2/LNpGgVRvXrE+4fSMowjcaLx91NO46j869w=="
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
@@ -460,14 +460,14 @@
       },
       "Microsoft.Extensions.Caching.Memory": {
         "type": "Transitive",
-        "resolved": "10.0.0",
-        "contentHash": "krK19MKp0BNiR9rpBDW7PKSrTMLVlifS9am3CVc4O1Jq6GWz0o4F+sw5OSL4L3mVd56W8l6JRgghUa2KB51vOw==",
+        "resolved": "10.0.1",
+        "contentHash": "NxqSP0Ky4dZ5ybszdZCqs1X2C70s+dXflqhYBUh/vhcQVTIooNCXIYnLVbafoAFGZMs51d9+rHxveXs0ZC3SQQ==",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "10.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "10.0.0",
-          "Microsoft.Extensions.Options": "10.0.0",
-          "Microsoft.Extensions.Primitives": "10.0.0"
+          "Microsoft.Extensions.Caching.Abstractions": "10.0.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "10.0.1",
+          "Microsoft.Extensions.Logging.Abstractions": "10.0.1",
+          "Microsoft.Extensions.Options": "10.0.1",
+          "Microsoft.Extensions.Primitives": "10.0.1"
         }
       },
       "Microsoft.Extensions.Compliance.Abstractions": {
@@ -955,11 +955,12 @@
       },
       "StackExchange.Redis": {
         "type": "Transitive",
-        "resolved": "2.8.31",
-        "contentHash": "RCHVQa9Zke8k0oBgJn1Yl6BuYy8i6kv+sdMObiH60nOwD6QvWAjxdDwOm+LO78E8WsGiPqgOuItkz98fPS6haQ==",
+        "resolved": "2.10.1",
+        "contentHash": "se08WZvD42H3bV4XBW07pupTiE2/72qStKyi/lRqqcijksFWfRtwLTuhFtZ4OX19f4+we/2qruFZBXYJBFc8PQ==",
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "6.0.0",
-          "Pipelines.Sockets.Unofficial": "2.2.8"
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Pipelines.Sockets.Unofficial": "2.2.8",
+          "System.IO.Hashing": "9.0.10"
         }
       },
       "System.CodeDom": {
@@ -971,6 +972,11 @@
         "type": "Transitive",
         "resolved": "6.0.0",
         "contentHash": "lcyUiXTsETK2ALsZrX+nWuHSIQeazhqPphLfaRxzdGaG93+0kELqpgEHtwWOlQe7+jSFnKwaCAgL4kjeZCQJnw=="
+      },
+      "System.IO.Hashing": {
+        "type": "Transitive",
+        "resolved": "9.0.10",
+        "contentHash": "9gv5z71xaWWmcGEs4bXdreIhKp2kYLK2fvPK5gQkgnWMYvZ8ieaxKofDjxL3scZiEYfi/yW2nJTiKV2awcWEdA=="
       },
       "System.Management": {
         "type": "Transitive",
@@ -1074,7 +1080,7 @@
         "type": "Project",
         "dependencies": {
           "MessagePack": "[3.1.4, )",
-          "Riok.Mapperly": "[4.3.0, )",
+          "Riok.Mapperly": "[4.3.1, )",
           "WeatherDashboard.Domain": "[1.0.0, )"
         }
       },
@@ -1104,8 +1110,8 @@
           "Microsoft.AspNetCore.DataProtection.StackExchangeRedis": "[10.0.1, )",
           "Microsoft.Extensions.Caching.StackExchangeRedis": "[10.0.1, )",
           "NeoSmart.Caching.Sqlite.AspNetCore": "[9.0.1, )",
-          "NetEscapades.AspNetCore.SecurityHeaders": "[1.3.0, )",
-          "Radzen.Blazor": "[8.4.1, )",
+          "NetEscapades.AspNetCore.SecurityHeaders": "[1.3.1, )",
+          "Radzen.Blazor": "[8.4.2, )",
           "Serilog": "[4.3.0, )",
           "Serilog.AspNetCore": "[10.0.0, )",
           "Serilog.Enrichers.CorrelationId": "[3.0.1, )",
@@ -1117,9 +1123,9 @@
           "UnitsNet": "[5.75.0, )",
           "WeatherDashboard.Application": "[1.0.0, )",
           "WeatherDashboard.Infrastructure": "[1.0.0, )",
-          "ZiggyCreatures.FusionCache": "[2.4.0, )",
-          "ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis": "[2.4.0, )",
-          "ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack": "[2.4.0, )"
+          "ZiggyCreatures.FusionCache": "[2.5.0, )",
+          "ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis": "[2.5.0, )",
+          "ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack": "[2.5.0, )"
         }
       },
       "Fluxor.Blazor.Web": {
@@ -1272,15 +1278,15 @@
       },
       "NetEscapades.AspNetCore.SecurityHeaders": {
         "type": "CentralTransitive",
-        "requested": "[1.3.0, )",
-        "resolved": "1.3.0",
-        "contentHash": "URbp+l1g4GebDI/4p8ZmBRYT3yTConmu7a+TfsEW+SRJpxMFI03eD+58MT5vAZ4rgqK7+HSWkMD3YpBxz9ZhjA=="
+        "requested": "[1.3.1, )",
+        "resolved": "1.3.1",
+        "contentHash": "wccVMVSGq9nQ43SjJl1s/VaAo+iWauJYWiZy/Hkvszk2vCQdq7aRn7GL3LTBMsnHuI13JRMfCi9Lk8747+njUg=="
       },
       "Radzen.Blazor": {
         "type": "CentralTransitive",
-        "requested": "[8.4.1, )",
-        "resolved": "8.4.1",
-        "contentHash": "/IWO92g9YKUyNxGEM8CJIxbBfQfLAnT35OsQVimA8urN1w1CavoksHcXVhxFnT9OmKflcaZSHIwHjefyDFnxEg==",
+        "requested": "[8.4.2, )",
+        "resolved": "8.4.2",
+        "contentHash": "0Vfv344eVZ1XnfAE1SEAV65fVvUJUqoU40gckKpMF50vPY0Ay3pKWALOGDRTWaJLn2xDgNQTo1pETZZdnLYe/A==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "10.0.1",
           "Microsoft.AspNetCore.Components.Web": "10.0.1"
@@ -1288,9 +1294,9 @@
       },
       "Riok.Mapperly": {
         "type": "CentralTransitive",
-        "requested": "[4.3.0, )",
-        "resolved": "4.3.0",
-        "contentHash": "9M60fNhHAx4Gzm3ebavQn60UT8uuFBM9kSfhepEWlEMoPhd/4mAdJAtBZmi+6RZJWTHil/VC/DrzihhPq39xhg=="
+        "requested": "[4.3.1, )",
+        "resolved": "4.3.1",
+        "contentHash": "oSE+OVLHyiojrws0QVbQaAT2YKsYbyHqJXPdV7EhGseR/dYgeWS2x1T5qY5I4E+RJkJqMSG+FyZOq4SljWgJWQ=="
       },
       "Serilog": {
         "type": "CentralTransitive",
@@ -1378,31 +1384,31 @@
       },
       "ZiggyCreatures.FusionCache": {
         "type": "CentralTransitive",
-        "requested": "[2.4.0, )",
-        "resolved": "2.4.0",
-        "contentHash": "5lkrQ5yVCcXeobP4SbO5wu1Beo2w3aN5PPIwb4yRQ1/pIe21q33ElkTa0gRJrgqo2smH2eZkGE+S4ReX3uesMQ==",
+        "requested": "[2.5.0, )",
+        "resolved": "2.5.0",
+        "contentHash": "lJJAxhhMstUhGTm+Lxp2y3oF4LCqFewV42thxevfiPUc3UKT+gJBMhMFXUDS1IC3lxUAwrjSZZwVkUDWh4HO5Q==",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Memory": "9.0.0"
+          "Microsoft.Extensions.Caching.Memory": "10.0.1"
         }
       },
       "ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis": {
         "type": "CentralTransitive",
-        "requested": "[2.4.0, )",
-        "resolved": "2.4.0",
-        "contentHash": "xoMDQppbljMVOgwU0xEzBKEaJw7ldUjElmK1fdJPifCo7EwB+BBOx7QoDLDYkMQ7amkZtTnTyzfqffTquF4TLw==",
+        "requested": "[2.5.0, )",
+        "resolved": "2.5.0",
+        "contentHash": "JlSl+KqqiEDQVGBGDPSsz70ikrsA2WFD5wZ4TSKif6Sp2vTzY13goU/Zb86BDZDNzEvttpcWZdxEGOzAWqoFWQ==",
         "dependencies": {
-          "StackExchange.Redis": "2.8.31",
-          "ZiggyCreatures.FusionCache": "2.4.0"
+          "StackExchange.Redis": "2.10.1",
+          "ZiggyCreatures.FusionCache": "2.5.0"
         }
       },
       "ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack": {
         "type": "CentralTransitive",
-        "requested": "[2.4.0, )",
-        "resolved": "2.4.0",
-        "contentHash": "0n5+FdrIu3AODUdrK9ybvm1e1pRdhhMRincVji8jloef4/MP6Ovkjcpx5co6c4sLGVwZic7sJTkJURBh79+s+A==",
+        "requested": "[2.5.0, )",
+        "resolved": "2.5.0",
+        "contentHash": "ilNClmNk/qzz4xV3X6wGoCJ+d7bvhP83WRqJWJrtZZD5xBUt5P2CrrVjD3jFIZOv6TvIO0eai4Sq85aTdT0Row==",
         "dependencies": {
-          "MessagePack": "3.1.3",
-          "ZiggyCreatures.FusionCache": "2.4.0"
+          "MessagePack": "3.1.4",
+          "ZiggyCreatures.FusionCache": "2.5.0"
         }
       }
     }

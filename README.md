@@ -153,48 +153,48 @@ The Domain layer has **zero external dependencies** to maintain pure business lo
 
 ### Application Layer
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| [MessagePack](https://www.nuget.org/packages/MessagePack/) | 3.1.4 | Binary serialization for caching with custom TimeZoneInfo formatter |
-| [Riok.Mapperly](https://www.nuget.org/packages/Riok.Mapperly/) | 4.3.0 | Compile-time object mapping for cache contracts |
+| Package                                                        | Version | Description                                                         |
+|----------------------------------------------------------------|---------|---------------------------------------------------------------------|
+| [MessagePack](https://www.nuget.org/packages/MessagePack/)     | 3.1.4   | Binary serialization for caching with custom TimeZoneInfo formatter |
+| [Riok.Mapperly](https://www.nuget.org/packages/Riok.Mapperly/) | 4.3.1   | Compile-time object mapping for cache contracts                     |
 
 ### Infrastructure Layer
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/) | 2025.2.4 | Code annotations for better IDE analysis |
-| [Lucene.Net](https://www.nuget.org/packages/Lucene.Net/) | 4.8.0-beta00017 | Full-text search engine core |
-| [Lucene.Net.Analysis.Common](https://www.nuget.org/packages/Lucene.Net.Analysis.Common/) | 4.8.0-beta00017 | Text analyzers for Lucene indexing |
-| [Lucene.Net.QueryParser](https://www.nuget.org/packages/Lucene.Net.QueryParser/) | 4.8.0-beta00017 | Query parsing for search functionality |
-| [Microsoft.Extensions.Hosting.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Hosting.Abstractions/) | 10.0.1 | Hosted services support |
-| [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/) | 10.0.1 | HTTP client factory |
-| [Microsoft.Extensions.Http.Resilience](https://www.nuget.org/packages/Microsoft.Extensions.Http.Resilience/) | 10.1.0 | Resilience patterns (retry, circuit breaker, timeout) |
-| [Microsoft.Extensions.Logging.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Abstractions/) | 10.0.1 | Logging abstractions |
+| Package                                                                                                                | Version         | Description                                           |
+|------------------------------------------------------------------------------------------------------------------------|-----------------|-------------------------------------------------------|
+| [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/)                                         | 2025.2.4        | Code annotations for better IDE analysis              |
+| [Lucene.Net](https://www.nuget.org/packages/Lucene.Net/)                                                               | 4.8.0-beta00017 | Full-text search engine core                          |
+| [Lucene.Net.Analysis.Common](https://www.nuget.org/packages/Lucene.Net.Analysis.Common/)                               | 4.8.0-beta00017 | Text analyzers for Lucene indexing                    |
+| [Lucene.Net.QueryParser](https://www.nuget.org/packages/Lucene.Net.QueryParser/)                                       | 4.8.0-beta00017 | Query parsing for search functionality                |
+| [Microsoft.Extensions.Hosting.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Hosting.Abstractions/) | 10.0.1          | Hosted services support                               |
+| [Microsoft.Extensions.Http](https://www.nuget.org/packages/Microsoft.Extensions.Http/)                                 | 10.0.1          | HTTP client factory                                   |
+| [Microsoft.Extensions.Http.Resilience](https://www.nuget.org/packages/Microsoft.Extensions.Http.Resilience/)           | 10.1.0          | Resilience patterns (retry, circuit breaker, timeout) |
+| [Microsoft.Extensions.Logging.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Logging.Abstractions/) | 10.0.1          | Logging abstractions                                  |
 
 ### Web Layer
 
-| Package | Version | Description |
-|---------|---------|-------------|
-| [Fluxor.Blazor.Web](https://www.nuget.org/packages/Fluxor.Blazor.Web/) | 6.9.0 | Redux-like state management for Blazor |
-| [Fluxor.Blazor.Web.ReduxDevTools](https://www.nuget.org/packages/Fluxor.Blazor.Web.ReduxDevTools/) | 6.9.0 | Redux DevTools integration (dev only) |
-| [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/) | 2025.2.4 | Code annotations for IDE analysis |
-| [Microsoft.AspNetCore.DataProtection.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNetCore.DataProtection.StackExchangeRedis/) | 10.0.1 | Data protection key storage in Redis |
-| [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/) | 10.0.1 | Redis distributed cache |
-| [NeoSmart.Caching.Sqlite.AspNetCore](https://www.nuget.org/packages/NeoSmart.Caching.Sqlite.AspNetCore/) | 9.0.1 | SQLite cache for development |
-| [NetEscapades.AspNetCore.SecurityHeaders](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/) | 1.3.0 | Middleware for adding security headers (CSP, X-Frame-Options) |
-| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/) | 8.4.1 | UI component library with Material theme and WCAG compliance |
-| [Serilog](https://www.nuget.org/packages/Serilog/) | 4.3.0 | Structured logging framework |
-| [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/) | 10.0.0 | ASP.NET Core integration for Serilog |
-| [Serilog.Enrichers.CorrelationId](https://www.nuget.org/packages/Serilog.Enrichers.CorrelationId/) | 3.0.1 | Correlation ID enrichment |
-| [Serilog.Enrichers.Environment](https://www.nuget.org/packages/Serilog.Enrichers.Environment/) | 3.0.1 | Environment enrichment |
-| [Serilog.Enrichers.Process](https://www.nuget.org/packages/Serilog.Enrichers.Process/) | 3.0.0 | Process enrichment |
-| [Serilog.Enrichers.Thread](https://www.nuget.org/packages/Serilog.Enrichers.Thread/) | 4.0.0 | Thread enrichment |
-| [Serilog.Sinks.OpenTelemetry](https://www.nuget.org/packages/Serilog.Sinks.OpenTelemetry/) | 4.2.0 | OpenTelemetry sink for observability |
-| [TimeZoneNames](https://www.nuget.org/packages/TimeZoneNames/) | 7.0.0 | IANA/Windows timezone abbreviation lookups (EST, PST, etc.) |
-| [UnitsNet](https://www.nuget.org/packages/UnitsNet/) | 5.75.0 | Strongly-typed unit conversions (temperature, wind speed) |
-| [ZiggyCreatures.FusionCache](https://www.nuget.org/packages/ZiggyCreatures.FusionCache/) | 2.4.0 | Multi-level caching with fail-safe |
-| [ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis](https://www.nuget.org/packages/ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis/) | 2.4.0 | Redis backplane for cache invalidation |
-| [ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack](https://www.nuget.org/packages/ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack/) | 2.4.0 | MessagePack serialization for caching |
+| Package                                                                                                                                                  | Version  | Description                                                   |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------------------------------------------|
+| [Fluxor.Blazor.Web](https://www.nuget.org/packages/Fluxor.Blazor.Web/)                                                                                   | 6.9.0    | Redux-like state management for Blazor                        |
+| [Fluxor.Blazor.Web.ReduxDevTools](https://www.nuget.org/packages/Fluxor.Blazor.Web.ReduxDevTools/)                                                       | 6.9.0    | Redux DevTools integration (dev only)                         |
+| [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/)                                                                           | 2025.2.4 | Code annotations for IDE analysis                             |
+| [Microsoft.AspNetCore.DataProtection.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNetCore.DataProtection.StackExchangeRedis/)         | 10.0.1   | Data protection key storage in Redis                          |
+| [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/)                       | 10.0.1   | Redis distributed cache                                       |
+| [NeoSmart.Caching.Sqlite.AspNetCore](https://www.nuget.org/packages/NeoSmart.Caching.Sqlite.AspNetCore/)                                                 | 9.0.1    | SQLite cache for development                                  |
+| [NetEscapades.AspNetCore.SecurityHeaders](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/)                                       | 1.3.0    | Middleware for adding security headers (CSP, X-Frame-Options) |
+| [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/)                                                                                           | 8.4.1    | UI component library with Material theme and WCAG compliance  |
+| [Serilog](https://www.nuget.org/packages/Serilog/)                                                                                                       | 4.3.0    | Structured logging framework                                  |
+| [Serilog.AspNetCore](https://www.nuget.org/packages/Serilog.AspNetCore/)                                                                                 | 10.0.0   | ASP.NET Core integration for Serilog                          |
+| [Serilog.Enrichers.CorrelationId](https://www.nuget.org/packages/Serilog.Enrichers.CorrelationId/)                                                       | 3.0.1    | Correlation ID enrichment                                     |
+| [Serilog.Enrichers.Environment](https://www.nuget.org/packages/Serilog.Enrichers.Environment/)                                                           | 3.0.1    | Environment enrichment                                        |
+| [Serilog.Enrichers.Process](https://www.nuget.org/packages/Serilog.Enrichers.Process/)                                                                   | 3.0.0    | Process enrichment                                            |
+| [Serilog.Enrichers.Thread](https://www.nuget.org/packages/Serilog.Enrichers.Thread/)                                                                     | 4.0.0    | Thread enrichment                                             |
+| [Serilog.Sinks.OpenTelemetry](https://www.nuget.org/packages/Serilog.Sinks.OpenTelemetry/)                                                               | 4.2.0    | OpenTelemetry sink for observability                          |
+| [TimeZoneNames](https://www.nuget.org/packages/TimeZoneNames/)                                                                                           | 7.0.0    | IANA/Windows timezone abbreviation lookups (EST, PST, etc.)   |
+| [UnitsNet](https://www.nuget.org/packages/UnitsNet/)                                                                                                     | 5.75.0   | Strongly-typed unit conversions (temperature, wind speed)     |
+| [ZiggyCreatures.FusionCache](https://www.nuget.org/packages/ZiggyCreatures.FusionCache/)                                                                 | 2.4.0    | Multi-level caching with fail-safe                            |
+| [ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis](https://www.nuget.org/packages/ZiggyCreatures.FusionCache.Backplane.StackExchangeRedis/)       | 2.4.0    | Redis backplane for cache invalidation                        |
+| [ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack](https://www.nuget.org/packages/ZiggyCreatures.FusionCache.Serialization.NeueccMessagePack/) | 2.4.0    | MessagePack serialization for caching                         |
 
 ## Architecture
 

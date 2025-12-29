@@ -15,15 +15,15 @@
       },
       "Meziantou.Analyzer": {
         "type": "Direct",
-        "requested": "[2.0.263, )",
-        "resolved": "2.0.263",
-        "contentHash": "Pbx5I+Djo0vWp0ykEZLVuHVaNVmyEzoOe50IpSqN0P+BRFx0lULhiHMaEWym5MOwoRluv/mTWi4e+BPBraLdIA=="
+        "requested": "[2.0.266, )",
+        "resolved": "2.0.266",
+        "contentHash": "wsD1DX2Fo4G8l9lbktn/+u3SeplHzJ6EGZX6X+Mw8S3LEz4vaS2/LNpGgVRvXrE+4fSMowjcaLx91NO46j869w=="
       },
       "Riok.Mapperly": {
         "type": "Direct",
-        "requested": "[4.3.0, )",
-        "resolved": "4.3.0",
-        "contentHash": "9M60fNhHAx4Gzm3ebavQn60UT8uuFBM9kSfhepEWlEMoPhd/4mAdJAtBZmi+6RZJWTHil/VC/DrzihhPq39xhg=="
+        "requested": "[4.3.1, )",
+        "resolved": "4.3.1",
+        "contentHash": "oSE+OVLHyiojrws0QVbQaAT2YKsYbyHqJXPdV7EhGseR/dYgeWS2x1T5qY5I4E+RJkJqMSG+FyZOq4SljWgJWQ=="
       },
       "MessagePack.Annotations": {
         "type": "Transitive",
