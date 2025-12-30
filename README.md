@@ -406,7 +406,7 @@ graph LR
 The application includes Docker support with docker-compose for production deployment.
 
 > [!IMPORTANT]
-> If you have not yet, ensure that you run `./generate-pfx.sh` to create the required PFX certificate before building running docker-compose the first time.
+> If you have not yet, ensure that you run `./generate-pfx.sh` to create the required PFX certificate before running docker-compose the first time.
 
 1. **Build and Run with Docker Compose**
 
