@@ -4,7 +4,7 @@
 [![Blazor](https://img.shields.io/badge/Blazor-Server-512BD4?style=for-the-badge&logo=blazor&logoColor=white)](https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 ![Coverage](https://img.shields.io/badge/coverage-90%25-darkgreen?style=for-the-badge&logo=codefactor)
-![Unit Tests](https://img.shields.io/badge/tests-378-D3D3D3?style=for-the-badge&logo=testcafe)
+![Unit Tests](https://img.shields.io/badge/tests-378_PASSED-D3D3D3?style=for-the-badge&logo=testcafe)
 
 A modern, interactive weather dashboard built with Blazor Server, demonstrating Clean Architecture principles, Domain-Driven Design patterns, and state-of-the-art .NET development practices.
 
