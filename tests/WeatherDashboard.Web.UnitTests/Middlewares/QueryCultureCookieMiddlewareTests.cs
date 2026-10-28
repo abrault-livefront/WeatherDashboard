@@ -16,8 +16,8 @@ using Web.Middlewares;
 [Trait("Speed", "Fast")]
 public sealed class QueryCultureCookieMiddlewareTests
 {
-    private const string EnvironmentName = "Development";
-    private const string ExpectedCookieName = "WeatherDashboard.Web.Culture.Development";
+    private const string s_environmentName = "Development";
+    private const string s_expectedCookieName = "WeatherDashboard.Web.Culture.Development";
 
     [Fact]
     public void Constructor_WithNullEnvironment_ThrowsArgumentNullException()
@@ -35,7 +35,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [Fact]
     public void Constructor_WithValidEnvironment_CreatesMiddleware()
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
 
         QueryCultureCookieMiddleware middleware = new(env);
 
@@ -49,7 +49,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("de-DE")]
     public async Task InvokeAsync_UsesCorrectCookieName(string cultureName)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(cultureName);
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -57,7 +57,7 @@ public sealed class QueryCultureCookieMiddlewareTests
         await middleware.InvokeAsync(context, next);
 
         context.Response.Cookies.Received(1).Append(
-            ExpectedCookieName,
+            s_expectedCookieName,
             Arg.Any<string>(),
             Arg.Any<CookieOptions>());
     }
@@ -68,7 +68,7 @@ public sealed class QueryCultureCookieMiddlewareTests
         const string cultureLowerCase = "en-us";
         const string cultureUpperCase = "EN-US";
 
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(
             cultureUpperCase,
@@ -89,7 +89,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("ru-RU")]
     public async Task InvokeAsync_WithCultureInQueryString_AlwaysCallsNextMiddleware(string cultureName)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(cultureName);
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -106,7 +106,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     public async Task InvokeAsync_WithCultureInQueryString_SetsCookieWithOneYearExpiration(string cultureName)
     {
         DateTimeOffset beforeTest = DateTimeOffset.UtcNow;
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(cultureName);
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -130,7 +130,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("sv-SE")]
     public async Task InvokeAsync_WithCultureInQueryStringAndNoCookie_SetsCookie(string cultureName)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(cultureName);
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -141,11 +141,11 @@ public sealed class QueryCultureCookieMiddlewareTests
             new RequestCulture(new CultureInfo(cultureName)));
 
         context.Response.Cookies.Received(1).Append(
-            ExpectedCookieName,
+            s_expectedCookieName,
             expectedValue,
             Arg.Is<CookieOptions>(opts =>
                 opts.IsEssential &&
-                !opts.HttpOnly &&
+                opts.HttpOnly &&
                 opts.SameSite == SameSiteMode.Strict));
     }
 
@@ -177,7 +177,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("de-DE", "it-IT")]
     public async Task InvokeAsync_WithDifferentExistingCookie_UpdatesCookie(string oldCultureName, string newCultureName)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(
             newCultureName,
@@ -190,7 +190,7 @@ public sealed class QueryCultureCookieMiddlewareTests
             new RequestCulture(new CultureInfo(newCultureName)));
 
         context.Response.Cookies.Received(1).Append(
-            ExpectedCookieName,
+            s_expectedCookieName,
             expectedValue,
             Arg.Any<CookieOptions>());
     }
@@ -198,7 +198,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [Fact]
     public async Task InvokeAsync_WithNoCultureInQueryString_DoesNotSetCookie()
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext();
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -221,7 +221,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [Fact]
     public async Task InvokeAsync_WithNullContext_ThrowsArgumentNullException()
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         RequestDelegate next = Substitute.For<RequestDelegate>();
 
@@ -235,7 +235,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [Fact]
     public async Task InvokeAsync_WithNullNext_ThrowsArgumentNullException()
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext();
 
@@ -252,7 +252,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("hi-IN")]
     public async Task InvokeAsync_WithSameExistingCookieValue_DoesNotUpdateCookie(string cultureName)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(
             cultureName,
@@ -274,7 +274,7 @@ public sealed class QueryCultureCookieMiddlewareTests
     [InlineData("\n")]
     public async Task InvokeAsync_WithWhitespaceCulture_DoesNotSetCookie(string whitespaceCulture)
     {
-        IWebHostEnvironment env = CreateMockEnvironment(EnvironmentName);
+        IWebHostEnvironment env = CreateMockEnvironment(s_environmentName);
         QueryCultureCookieMiddleware middleware = new(env);
         HttpContext context = CreateMockHttpContext(whitespaceCulture);
         RequestDelegate next = Substitute.For<RequestDelegate>();
@@ -320,7 +320,7 @@ public sealed class QueryCultureCookieMiddlewareTests
         IRequestCookieCollection requestCookies = Substitute.For<IRequestCookieCollection>();
         if ( existingCookieValue is not null )
         {
-            requestCookies[ExpectedCookieName].Returns(existingCookieValue);
+            requestCookies[s_expectedCookieName].Returns(existingCookieValue);
         }
         else
         {

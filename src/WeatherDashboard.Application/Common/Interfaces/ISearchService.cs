@@ -9,27 +9,23 @@ using Domain.Entities.Documents;
 /// <typeparam name="TDocument">
 ///     The type of document handled by this search service. Must implement <see cref="IDocument" />.
 /// </typeparam>
-public interface ISearchService<TDocument> : IDisposable
+public interface ISearchService<TDocument>
     where TDocument : class, IDocument
 {
     /// <summary>
-    ///     Searches the Lucene index for documents matching the specified query across the given fields.
+    ///     Searches the index for documents matching the specified query.
     /// </summary>
     /// <param name="query">The search query string to execute against the index.</param>
     /// <param name="limit">The maximum number of results to return. Must be greater than zero. Defaults to 10.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>
     ///     A <see cref="SearchResult{TDocument}" /> with the matching documents and total hit count.
     /// </returns>
-    /// <exception cref="ObjectDisposedException">Thrown when the search service has been disposed.</exception>
     /// <exception cref="ArgumentNullException">
     ///     Thrown when <paramref name="query" /> is <c>null</c> or empty.
     /// </exception>
     /// <exception cref="ArgumentOutOfRangeException">
     ///     Thrown when <paramref name="limit" /> is less than or equal to zero.
     /// </exception>
-    /// <remarks>
-    ///     This method refreshes the searcher if necessary, parses the query using a multi-field parser,
-    ///     and returns an empty result set if the query cannot be parsed or contains too many clauses.
-    /// </remarks>
-    SearchResult<TDocument> Search(string query, int limit = 10);
+    Task<SearchResult<TDocument>> SearchAsync(string query, int limit = 10, CancellationToken cancellationToken = default);
 }

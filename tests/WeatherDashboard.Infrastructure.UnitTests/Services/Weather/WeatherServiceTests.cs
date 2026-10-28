@@ -19,7 +19,7 @@ using RichardSzalay.MockHttp;
 [Trait("Speed", "Fast")]
 public sealed class WeatherServiceTests
 {
-    private const string ApiUrl = "https://api.open-meteo.com/v1/forecast";
+    private const string s_apiUrl = "https://api.open-meteo.com/v1/forecast";
 
     private readonly Fixture _fixture = new();
 
@@ -37,7 +37,7 @@ public sealed class WeatherServiceTests
     {
         using MockHttpMessageHandler mockHttp = new();
 
-        mockHttp.When(HttpMethod.Get, ApiUrl)
+        mockHttp.When(HttpMethod.Get, s_apiUrl)
                 .Respond(HttpStatusCode.NotFound);
 
         IRateLimitTracker? rateLimitTracker = Substitute.For<IRateLimitTracker>();
@@ -57,7 +57,7 @@ public sealed class WeatherServiceTests
     {
         using MockHttpMessageHandler mockHttp = new();
 
-        mockHttp.When(HttpMethod.Get, ApiUrl)
+        mockHttp.When(HttpMethod.Get, s_apiUrl)
                 .Respond(HttpStatusCode.OK);
 
         IRateLimitTracker? rateLimitTracker = Substitute.For<IRateLimitTracker>();
@@ -102,7 +102,7 @@ public sealed class WeatherServiceTests
                                                   .With(w => w.Longitude, longitude)
                                                   .Create();
 
-        mockHttp.When(HttpMethod.Get, ApiUrl)
+        mockHttp.When(HttpMethod.Get, s_apiUrl)
                 .WithQueryString(new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                  {
                      { "latitude", latitude.ToString(CultureInfo.InvariantCulture) },

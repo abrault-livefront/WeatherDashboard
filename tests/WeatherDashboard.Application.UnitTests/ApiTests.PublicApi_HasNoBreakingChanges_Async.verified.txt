@@ -12,23 +12,22 @@ namespace WeatherDashboard.Application.Common.Extensions
 }
 namespace WeatherDashboard.Application.Common.Interfaces
 {
-    public interface IIndexerService<in TDocument> : System.IDisposable
+    public interface IIndexerService<in TDocument>
         where in TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
     {
-        System.IO.DirectoryInfo IndexDirectory { get; }
         string IndexName { get; }
-        void Index(TDocument document);
-        void IndexMany(System.Collections.Generic.IEnumerable<TDocument> documents);
+        System.Threading.Tasks.Task IndexAsync(TDocument document, System.Threading.CancellationToken cancellationToken = default);
+        System.Threading.Tasks.Task IndexManyAsync(System.Collections.Generic.IEnumerable<TDocument> documents, System.Threading.CancellationToken cancellationToken = default);
     }
     public interface IRateLimitTracker
     {
         System.Threading.Tasks.Task<bool> CanMakeRequestAsync(System.Threading.CancellationToken cancellationToken = default);
         System.Threading.Tasks.Task RecordRequestAsync(System.Threading.CancellationToken cancellationToken = default);
     }
-    public interface ISearchService<TDocument> : System.IDisposable
+    public interface ISearchService<TDocument>
         where TDocument :  class, WeatherDashboard.Domain.Entities.Documents.IDocument
     {
-        WeatherDashboard.Domain.Common.SearchResult<TDocument> Search(string query, int limit = 10);
+        System.Threading.Tasks.Task<WeatherDashboard.Domain.Common.SearchResult<TDocument>> SearchAsync(string query, int limit = 10, System.Threading.CancellationToken cancellationToken = default);
     }
     public interface ITimeProvider
     {

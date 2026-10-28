@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="Aspire.StackExchange.Redis" />
     <PackageReference Include="Fluxor.Blazor.Web"/>
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools"/>
     <PackageReference Include="JetBrains.Annotations"/>
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
-    <PackageReference Include="NeoSmart.Caching.Sqlite.AspNetCore"/>
     <PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" />
     <PackageReference Include="Radzen.Blazor"/>
     <PackageReference Include="Serilog"/>
@@ -92,7 +93,7 @@
   
   <ItemGroup>
     <None Update="WeatherDashboard.Web.DataProtection.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   

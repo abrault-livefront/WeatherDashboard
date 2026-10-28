@@ -5,33 +5,20 @@ using Microsoft.Extensions.Logging;
 internal static partial class LoggerExtensions
 {
     [LoggerMessage(LogLevel.Critical,
-        "An exception was thrown indicating that {IndexName} is in an inconsistent state. " +
-        "Rolling back to the previous consistent state.")]
-    public static partial void LogCorruptLuceneIndex(this ILogger logger, string indexName);
+        "Failed to create index '{IndexName}': {Reason}")]
+    public static partial void LogFailedToCreateIndex(this ILogger logger, string indexName, string reason);
 
     [LoggerMessage(LogLevel.Critical,
-        "Failed to commit changes during disposal to '{IndexName}': {ExceptionMessage}")]
-    public static partial void LogFailedToCommitDuringDispose(this ILogger logger, string indexName, string exceptionMessage);
+        "Failed to delete index '{IndexName}': {Reason}")]
+    public static partial void LogFailedToDeleteIndex(this ILogger logger, string indexName, string reason);
 
     [LoggerMessage(LogLevel.Critical,
-        "Failed to commit changes to '{IndexName}' on dispose: {ExceptionMessage}")]
-    public static partial void LogFailedToCommitOnDispose(this ILogger logger, string indexName, string exceptionMessage);
-
-    [LoggerMessage(LogLevel.Critical,
-        "Failed to index documents in '{IndexName}': {ExceptionMessage}")]
-    public static partial void LogFailedToIndexDocuments(this ILogger logger, string indexName, string exceptionMessage);
+        "Failed to index documents in '{IndexName}': {Reason}")]
+    public static partial void LogFailedToIndexDocuments(this ILogger logger, string indexName, string reason);
 
     [LoggerMessage(LogLevel.Error,
-        "Failed to parse document identifier '{DocumentId}'")]
-    public static partial void LogFailedToParseDocumentId(this ILogger logger, string documentId);
-
-    [LoggerMessage(LogLevel.Warning,
-        "Failed to release searcher for index {IndexName}: {ExceptionMessage}")]
-    public static partial void LogFailedToReleaseSearcher(this ILogger logger, string indexName, string exceptionMessage);
-
-    [LoggerMessage(LogLevel.Critical,
-        "Failed to rollback in '{IndexName}': {ExceptionMessage}")]
-    public static partial void LogFailedToRollback(this ILogger logger, string indexName, string exceptionMessage);
+        "Failed to search index '{IndexName}': {Reason}")]
+    public static partial void LogFailedToSearch(this ILogger logger, string indexName, string reason);
 
     [LoggerMessage(LogLevel.Critical,
         "Resource '{ResourceName}' could not be located within assembly '{AssemblyName}'")]

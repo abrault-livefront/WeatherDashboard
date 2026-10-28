@@ -2,13 +2,11 @@ namespace WeatherDashboard.Web;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using Application.Common.Serialization.MessagePack;
 using Configuration;
 using Fluxor;
 using Fluxor.Blazor.Web.ReduxDevTools;
-using Infrastructure.Configuration;
 using Infrastructure.Extensions;
 using MessagePack;
 using MessagePack.Resolvers;
@@ -17,7 +15,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
 using Middlewares;
-using NeoSmart.Caching.Sqlite;
 using Radzen;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -31,11 +28,9 @@ using ZiggyCreatures.Caching.Fusion.Serialization.NeueccMessagePack;
 [ExcludeFromCodeCoverage]
 internal static class Program
 {
-    private const string CertificateFileName = "WeatherDashboard.Web.DataProtection.pfx";
+    private const string s_certificateFileName = "WeatherDashboard.Web.DataProtection.pfx";
 
-    private const string DataProtectionRedisKey = "DataProtection-Keys";
-
-    private const string RedisClientName = "WeatherDashboard.Web";
+    private const string s_dataProtectionRedisKey = "DataProtection-Keys";
 
     public static async Task Main()
     {
@@ -57,18 +52,13 @@ internal static class Program
                 builder.Configuration.GetSection(LocalStorageSettings.SectionName)
             );
 
-            builder.Services.Configure<RedisOptions>(RedisOptions.SectionNameCache,
-                builder.Configuration.GetSection(RedisOptions.SectionNameCache)
-            );
-
-            builder.Services.Configure<RedisOptions>(RedisOptions.SectionNameConfig,
-                builder.Configuration.GetSection(RedisOptions.SectionNameConfig)
-            );
+            IServiceProvider? services = null;
 
             ConfigureLogging(builder);
-            ConfigureServices(builder);
+            ConfigureServices(builder, () => services!);
 
             WebApplication app = builder.Build();
+            services = app.Services;
 
             ConfigureMiddleware(app);
             ConfigureSecurityHeaders(app);
@@ -87,7 +77,7 @@ internal static class Program
     }
 
     /// <summary>
-    ///     Configures distributed caching using SQLite for development and Redis for production.
+    ///     Configures distributed caching using the Aspire-provisioned "redis-cache" Redis instance.
     /// </summary>
     /// <param name="builder">The web application builder.</param>
     private static void ConfigureCaching(WebApplicationBuilder builder)
@@ -104,40 +94,18 @@ internal static class Program
         FusionCacheNeueccMessagePackSerializer serializer =
             new(new MessagePackSerializerOptions(resolver));
 
-        if ( builder.Environment.IsDevelopment() )
-        {
-            DirectoryInfo cacheDirectory = GetCacheDirectory();
-            EnsureCacheDirectory(cacheDirectory);
-
-            #pragma warning disable CA2000 // Dispose handled by FusionCache
-            builder.Services.AddFusionCache()
-                   .WithSerializer(serializer)
-                   .WithDistributedCache(new SqliteCache(new SqliteCacheOptions
-                    {
-                        CachePath = Path.Combine(cacheDirectory.FullName, "cache.db"),
-                    }));
-            #pragma warning restore CA2000
-        }
-        else
-        {
-            RedisOptions options = builder.Configuration.GetSection(RedisOptions.SectionNameCache).Get<RedisOptions>()
-                                ?? throw new InvalidOperationException("Redis cache configuration is missing");
-
-            ConfigurationOptions redisConfigurationOptions = CreateRedisConfigurationOptions(options);
-
-            #pragma warning disable CA2000 // Dispose handled by FusionCache
-            builder.Services.AddFusionCache()
-                   .WithSerializer(serializer)
-                   .WithDistributedCache(new RedisCache(new RedisCacheOptions
-                    {
-                        ConfigurationOptions = redisConfigurationOptions,
-                    }))
-                   .WithBackplane(new RedisBackplane(new RedisBackplaneOptions
-                    {
-                        ConfigurationOptions = redisConfigurationOptions,
-                    }));
-            #pragma warning restore CA2000
-        }
+        #pragma warning disable CA2000 // Dispose handled by FusionCache
+        builder.Services.AddFusionCache()
+               .WithSerializer(serializer)
+               .WithDistributedCache(sp => new RedisCache(new RedisCacheOptions
+                {
+                    ConnectionMultiplexerFactory = () => Task.FromResult(sp.GetRequiredKeyedService<IConnectionMultiplexer>("redis-cache")),
+                }))
+               .WithBackplane(sp => new RedisBackplane(new RedisBackplaneOptions
+                {
+                    ConnectionMultiplexerFactory = () => Task.FromResult(sp.GetRequiredKeyedService<IConnectionMultiplexer>("redis-cache")),
+                }));
+        #pragma warning restore CA2000
     }
 
     /// <summary>
@@ -235,16 +203,20 @@ internal static class Program
 
     /// <summary>
     ///     Configures data protection with certificate-based key encryption and antiforgery tokens.
-    ///     In production, data protection keys are persisted to Redis.
+    ///     Data protection keys are persisted to the Aspire-provisioned "redis-config" Redis instance.
     /// </summary>
     /// <param name="builder">The web application builder.</param>
-    private static void ConfigureSecurity(WebApplicationBuilder builder)
+    /// <param name="resolveServices">
+    ///     Resolves the real application <see cref="IServiceProvider" />, available once the host
+    ///     has been built.
+    /// </param>
+    private static void ConfigureSecurity(WebApplicationBuilder builder, Func<IServiceProvider> resolveServices)
     {
         CookieSettings cookieSettings = GetCookieSettings(builder.Configuration);
 
         // note: prefer ProtectKeysWithAzureKeyVault() over ProtectKeysWithCertificate()
         // unless you can guarantee the same certificate is deployed to all instances securely.
-        string certificatePath = Path.Combine(AppContext.BaseDirectory, CertificateFileName);
+        string certificatePath = Path.Combine(AppContext.BaseDirectory, s_certificateFileName);
         ReadOnlySpan<byte> pfx = File.ReadAllBytes(certificatePath);
 
         X509Certificate2 certificate = X509CertificateLoader.LoadPkcs12(pfx,
@@ -258,22 +230,12 @@ internal static class Program
                    .SetApplicationName($"WeatherDashboard.Web.{builder.Environment.EnvironmentName}")
                    .SetDefaultKeyLifetime(TimeSpan.FromDays(365));
 
-        if ( !builder.Environment.IsDevelopment() )
-        {
-            RedisOptions options = builder.Configuration.GetSection(RedisOptions.SectionNameConfig).Get<RedisOptions>()
-                                ?? throw new InvalidOperationException("Redis config configuration is missing");
-
-            ConfigurationOptions redisConfig = CreateRedisConfigurationOptions(options);
-
-            builder.Services.AddSingleton<IConnectionMultiplexer>(_ =>
-                ConnectionMultiplexer.Connect(redisConfig));
-
-            IConnectionMultiplexer connection = builder.Services
-                                                       .BuildServiceProvider()
-                                                       .GetRequiredService<IConnectionMultiplexer>();
-
-            dataProtectionBuilder.PersistKeysToStackExchangeRedis(connection, DataProtectionRedisKey);
-        }
+        // note: the database factory is deferred (via resolveServices) so the keyed Aspire Redis client is
+        // resolved from the real DI container after the host has started, instead of eagerly via a throwaway
+        // BuildServiceProvider() snapshot, which raced with Serilog's reloadable logger and crashed on startup.
+        dataProtectionBuilder.PersistKeysToStackExchangeRedis(
+            () => resolveServices().GetRequiredKeyedService<IConnectionMultiplexer>("redis-config").GetDatabase(),
+            s_dataProtectionRedisKey);
 
         builder.Services.AddAntiforgery(o =>
         {
@@ -297,10 +259,9 @@ internal static class Program
     ///         <item>
     ///             <description>
     ///                 Content Security Policy (CSP) that restricts resource loading to prevent XSS attacks.
-    ///                 Default sources are limited to self, with specific allowances for images (including data URIs
-    ///                 and HTTP for demo purposes), scripts (with unsafe-eval and unsafe-inline for Blazor),
-    ///                 and styles (with unsafe-inline). Connect sources allow self and insecure WebSockets for demo purposes.
-    ///                 Object sources are blocked entirely.
+    ///                 Default sources are limited to self, with specific allowances for images (self and data URIs),
+    ///                 scripts (with unsafe-eval and unsafe-inline for Blazor), and styles (with unsafe-inline).
+    ///                 Connect sources are limited to self. Object sources are blocked entirely.
     ///             </description>
     ///         </item>
     ///         <item>
@@ -318,8 +279,8 @@ internal static class Program
             p.AddContentSecurityPolicy(o =>
             {
                 o.AddDefaultSrc().Self();
-                o.AddConnectSrc().Self().OverInsecureWs(); // for the purposes of this demo, we allow ws
-                o.AddImgSrc().Data().OverInsecureHttp(); // for the purposes of this demo, we allow http
+                o.AddConnectSrc().Self();
+                o.AddImgSrc().Data();
                 o.AddObjectSrc().None();
                 o.AddScriptSrc()
                  .Self()
@@ -337,10 +298,18 @@ internal static class Program
     ///     and infrastructure services.
     /// </summary>
     /// <param name="builder">The web application builder.</param>
-    private static void ConfigureServices(WebApplicationBuilder builder)
+    /// <param name="resolveServices">
+    ///     Resolves the real application <see cref="IServiceProvider" />, available once the host
+    ///     has been built.
+    /// </param>
+    private static void ConfigureServices(WebApplicationBuilder builder, Func<IServiceProvider> resolveServices)
     {
+        builder.AddKeyedRedisClient("redis-cache");
+        builder.AddKeyedRedisClient("redis-config");
+        builder.AddElasticsearchClient("elasticsearch");
+
         ConfigureLocalization(builder);
-        ConfigureSecurity(builder);
+        ConfigureSecurity(builder, resolveServices);
         ConfigureCaching(builder);
         ConfigureFluxor(builder);
 
@@ -362,47 +331,6 @@ internal static class Program
                     .MinimumLevel.Debug()
                     .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture, theme: AnsiConsoleTheme.Code)
                     .CreateBootstrapLogger();
-    }
-
-    /// <summary>
-    ///     Creates a Redis <see cref="ConfigurationOptions" /> instance from the specified configuration section.
-    /// </summary>
-    /// <param name="options">The Redis options containing endpoint and timeout settings.</param>
-    /// <returns>A configured <see cref="ConfigurationOptions" /> instance.</returns>
-    private static ConfigurationOptions CreateRedisConfigurationOptions(RedisOptions options)
-    {
-        EndPoint[] endPoints = [.. options.EndPoints.Select(ep => new DnsEndPoint(ep.Host, ep.Port)),];
-
-        return new ConfigurationOptions
-        {
-            AllowAdmin = false,
-            ClientName = RedisClientName,
-            ConnectTimeout = options.ConnectTimeoutMilliseconds,
-            EndPoints = new EndPointCollection(endPoints),
-            ResolveDns = options.ResolveDns,
-            SyncTimeout = options.SyncTimeoutMilliseconds,
-        };
-    }
-
-    /// <summary>
-    ///     Ensures the cache directory exists, creating it if necessary.
-    /// </summary>
-    private static void EnsureCacheDirectory(DirectoryInfo cacheDirectory)
-    {
-        if ( !cacheDirectory.Exists )
-        {
-            cacheDirectory.Create();
-        }
-    }
-
-    /// <summary>
-    ///     Gets the cache directory path for development environments where SQLite caching is used.
-    /// </summary>
-    /// <returns>A <see cref="DirectoryInfo" /> representing the cache directory.</returns>
-    private static DirectoryInfo GetCacheDirectory()
-    {
-        string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-        return new DirectoryInfo(Path.Combine(basePath, "WeatherDashboard", "Cache"));
     }
 
     /// <summary>

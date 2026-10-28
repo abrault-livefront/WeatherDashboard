@@ -50,7 +50,7 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(query);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(query).Returns(searchResult);
+        _mockSearchService.SearchAsync(query).Returns(searchResult);
 
         Func<Task> act = async () => await effect.HandleAsync(action, _mockDispatcher).ConfigureAwait(true);
 
@@ -66,7 +66,7 @@ public sealed class SearchLocationEffectTests
         await effect.HandleAsync(action, _mockDispatcher);
 
         _mockDispatcher.Received(1).Dispatch(Arg.Is<SearchLocationSuccessAction>(a => a.Results.Count == 0));
-        _mockSearchService.DidNotReceive().Search(Arg.Any<string>());
+        await _mockSearchService.DidNotReceive().SearchAsync(Arg.Any<string>());
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public sealed class SearchLocationEffectTests
         await effect.HandleAsync(action, _mockDispatcher);
 
         _mockDispatcher.Received(1).Dispatch(Arg.Is<SearchLocationSuccessAction>(a => a.Results.Count == 0));
-        _mockSearchService.DidNotReceive().Search(Arg.Any<string>());
+        await _mockSearchService.DidNotReceive().SearchAsync(Arg.Any<string>());
     }
 
     [Theory]
@@ -119,11 +119,11 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(query);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(query).Returns(searchResult);
+        _mockSearchService.SearchAsync(query).Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
-        _mockSearchService.Received(1).Search(query);
+        await _mockSearchService.Received(1).SearchAsync(query);
         _mockDispatcher.Received(1).Dispatch(Arg.Any<SearchLocationSuccessAction>());
     }
 
@@ -139,7 +139,7 @@ public sealed class SearchLocationEffectTests
         await effect.HandleAsync(action, _mockDispatcher);
 
         _mockDispatcher.Received(1).Dispatch(Arg.Is<SearchLocationSuccessAction>(a => a.Results.Count == 0));
-        _mockSearchService.DidNotReceive().Search(Arg.Any<string>());
+        await _mockSearchService.DidNotReceive().SearchAsync(Arg.Any<string>());
     }
 
     [Theory]
@@ -150,7 +150,7 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(query);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(query).Returns(searchResult);
+        _mockSearchService.SearchAsync(query).Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
@@ -169,7 +169,7 @@ public sealed class SearchLocationEffectTests
         IReadOnlyList<LocationDocument> locations = [location1, location2, location3,];
         SearchResult<LocationDocument> searchResult = new(locations, 3);
 
-        _mockSearchService.Search("test query").Returns(searchResult);
+        _mockSearchService.SearchAsync("test query").Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
@@ -187,11 +187,11 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(query);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(query).Returns(searchResult);
+        _mockSearchService.SearchAsync(query).Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
-        _mockSearchService.Received(1).Search(query);
+        await _mockSearchService.Received(1).SearchAsync(query);
     }
 
     [Theory]
@@ -203,7 +203,7 @@ public sealed class SearchLocationEffectTests
         IReadOnlyList<LocationDocument> locations = [location,];
         SearchResult<LocationDocument> searchResult = new(locations, 1);
 
-        _mockSearchService.Search("New York").Returns(searchResult);
+        _mockSearchService.SearchAsync("New York").Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
@@ -223,12 +223,12 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(validQuery);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(validQuery).Returns(searchResult);
+        _mockSearchService.SearchAsync(validQuery).Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
         // Verify the exact query was passed (no trimming, case changes, etc.)
-        _mockSearchService.Received(1).Search(validQuery);
+        await _mockSearchService.Received(1).SearchAsync(validQuery);
     }
 
     [Theory]
@@ -243,11 +243,11 @@ public sealed class SearchLocationEffectTests
         SearchLocationAction action = new(query);
         SearchResult<LocationDocument> searchResult = new([], 0);
 
-        _mockSearchService.Search(query).Returns(searchResult);
+        _mockSearchService.SearchAsync(query).Returns(searchResult);
 
         await effect.HandleAsync(action, _mockDispatcher);
 
-        _mockSearchService.Received(1).Search(query);
+        await _mockSearchService.Received(1).SearchAsync(query);
         _mockDispatcher.Received(1).Dispatch(Arg.Any<SearchLocationSuccessAction>());
     }
 
@@ -265,6 +265,6 @@ public sealed class SearchLocationEffectTests
         await effect.HandleAsync(action, _mockDispatcher);
 
         _mockDispatcher.Received(1).Dispatch(Arg.Is<SearchLocationSuccessAction>(a => a.Results.Count == 0));
-        _mockSearchService.DidNotReceive().Search(Arg.Any<string>());
+        await _mockSearchService.DidNotReceive().SearchAsync(Arg.Any<string>());
     }
 }

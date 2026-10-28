@@ -16,17 +16,17 @@ internal sealed class WeatherApiRateLimitTracker : IRateLimitTracker, IDisposabl
     /// <summary>
     ///     Maximum number of API requests allowed per day.
     /// </summary>
-    private const int DailyLimit = 10000;
+    private const int s_dailyLimit = 10000;
 
     /// <summary>
     ///     Maximum number of API requests allowed per hour.
     /// </summary>
-    private const int HourLimit = 5000;
+    private const int s_hourLimit = 5000;
 
     /// <summary>
     ///     Maximum number of API requests allowed per minute.
     /// </summary>
-    private const int MinuteLimit = 600;
+    private const int s_minuteLimit = 600;
 
     /// <summary>
     ///     Queue tracking timestamps of requests within the last 24 hours.
@@ -64,9 +64,9 @@ internal sealed class WeatherApiRateLimitTracker : IRateLimitTracker, IDisposabl
     {
         await CleanupOldRequestsAsync(cancellationToken).ConfigureAwait(false);
 
-        return _minuteRequests.Count < MinuteLimit
-            && _hourlyRequests.Count < HourLimit
-            && _dailyRequests.Count < DailyLimit;
+        return _minuteRequests.Count < s_minuteLimit
+            && _hourlyRequests.Count < s_hourLimit
+            && _dailyRequests.Count < s_dailyLimit;
     }
 
     public void Dispose()

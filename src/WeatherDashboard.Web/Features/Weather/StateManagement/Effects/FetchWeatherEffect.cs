@@ -7,7 +7,6 @@ using Application.Common.Utilities;
 using Application.Contracts.Weather;
 using Domain.Entities.Weather;
 using Fluxor;
-using J2N;
 using ZiggyCreatures.Caching.Fusion;
 
 /// <summary>
@@ -56,7 +55,7 @@ internal sealed class FetchWeatherEffect : Effect<FetchWeatherAction>
         ArgumentNullException.ThrowIfNull(action);
         ArgumentNullException.ThrowIfNull(dispatcher);
 
-        if ( !action.Latitude.IsInfinity() && !action.Longitude.IsInfinity() )
+        if ( !double.IsInfinity(action.Latitude) && !double.IsInfinity(action.Longitude) )
         {
             return HandleInternalAsync(action, dispatcher);
         }

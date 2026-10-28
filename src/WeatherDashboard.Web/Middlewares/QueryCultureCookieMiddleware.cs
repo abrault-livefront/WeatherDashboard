@@ -22,22 +22,23 @@ internal sealed class QueryCultureCookieMiddleware : IMiddleware
     ///     Base cookie options used for the culture cookie.
     ///     The cookie is essential, not HTTP-only (accessible to JavaScript), and uses strict same-site mode.
     /// </summary>
-    private static readonly CookieOptions BaseCookieOptions = new()
+    private static readonly CookieOptions s_baseCookieOptions = new()
     {
         IsEssential = true,
-        HttpOnly = false,
+        HttpOnly = true,
+        Secure = true,
         SameSite = SameSiteMode.Strict,
     };
 
     /// <summary>
     ///     The prefix used for the culture cookie name before the environment name is appended.
     /// </summary>
-    private const string CookieNamePrefix = "WeatherDashboard.Web.Culture.";
+    private const string s_cookieNamePrefix = "WeatherDashboard.Web.Culture.";
 
     /// <summary>
     ///     The provider used to detect culture selection from query string parameters.
     /// </summary>
-    private static readonly QueryStringRequestCultureProvider Provider = new();
+    private static readonly QueryStringRequestCultureProvider s_provider = new();
 
     /// <summary>
     ///     The fully qualified cookie name including the environment name.
@@ -52,7 +53,7 @@ internal sealed class QueryCultureCookieMiddleware : IMiddleware
     public QueryCultureCookieMiddleware(IWebHostEnvironment env)
     {
         ArgumentNullException.ThrowIfNull(env);
-        _cookieName = $"{CookieNamePrefix}{env.EnvironmentName}";
+        _cookieName = $"{s_cookieNamePrefix}{env.EnvironmentName}";
     }
 
     /// <summary>
@@ -70,7 +71,7 @@ internal sealed class QueryCultureCookieMiddleware : IMiddleware
         ArgumentNullException.ThrowIfNull(context);
         ArgumentNullException.ThrowIfNull(next);
 
-        ProviderCultureResult? result = await Provider.DetermineProviderCultureResult(context)
+        ProviderCultureResult? result = await s_provider.DetermineProviderCultureResult(context)
                                                       .ConfigureAwait(false);
 
         if ( result is not null && result.Cultures.Count > 0 )
@@ -86,10 +87,10 @@ internal sealed class QueryCultureCookieMiddleware : IMiddleware
 
                     CookieOptions opts = new()
                     {
-                        IsEssential = BaseCookieOptions.IsEssential,
-                        HttpOnly = BaseCookieOptions.HttpOnly,
-                        SameSite = BaseCookieOptions.SameSite,
-                        Secure = context.Request.IsHttps,
+                        IsEssential = s_baseCookieOptions.IsEssential,
+                        HttpOnly = true,
+                        SameSite = s_baseCookieOptions.SameSite,
+                        Secure = true,
                         Expires = DateTimeOffset.UtcNow.AddYears(1),
                     };
 

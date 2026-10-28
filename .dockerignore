@@ -1,9 +1,0 @@
-.git/
-.idea/
-.vs/
-.vscode/
-*.user
-bin/
-node_modules/
-obj/
-wwwroot/

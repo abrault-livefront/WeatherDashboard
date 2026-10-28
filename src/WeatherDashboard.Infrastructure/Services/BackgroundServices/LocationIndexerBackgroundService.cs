@@ -11,44 +11,35 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 /// <summary>
-///     Background service that indexes location documents from embedded seed data using Lucene.Net.
+///     Background service that indexes location documents from embedded seed data into Elasticsearch.
 /// </summary>
 /// <remarks>
 ///     This service runs on application startup and checks if the location index needs to be rebuilt
-///     by comparing the hash of the embedded seed data with a stored hash file. If the data has changed
-///     or no index exists, it deserializes the location documents and builds the search index.
+///     by comparing the hash of the embedded seed data with a hash recorded in Elasticsearch from the
+///     previous successful seed. If the data has changed or no index exists, it deserializes the
+///     location documents and rebuilds the search index.
 /// </remarks>
 public sealed class LocationIndexerBackgroundService : BackgroundService
 {
-    private const string ResourceName = "WeatherDashboard.Infrastructure.Data.SeedData.Locations.json";
+    private const string s_resourceName = "WeatherDashboard.Infrastructure.Data.SeedData.Locations.json";
 
-    private readonly ILuceneIndexerService<LocationDocument> _indexerService;
-
-    private readonly FileInfo _indexHashFileName;
+    private readonly IElasticsearchIndexerService<LocationDocument> _indexerService;
 
     private readonly ILogger<LocationIndexerBackgroundService> _logger;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="LocationIndexerBackgroundService" /> class.
     /// </summary>
-    /// <param name="indexDirectory">The directory where the index files are to be stored.</param>
-    /// <param name="indexerService">The Lucene indexer service used to build and manage the location index.</param>
+    /// <param name="indexerService">The Elasticsearch indexer service used to build and manage the location index.</param>
     /// <param name="logger">The logger instance for recording indexing operations and errors.</param>
     /// <exception cref="ArgumentNullException">
-    ///     Thrown when <paramref name="indexDirectory" />, <paramref name="indexerService" /> or
-    ///     <paramref name="logger" /> is <c>null</c>.
+    ///     Thrown when <paramref name="indexerService" /> or <paramref name="logger" /> is <c>null</c>.
     /// </exception>
-    public LocationIndexerBackgroundService(DirectoryInfo indexDirectory,
-                                            ILuceneIndexerService<LocationDocument> indexerService,
+    public LocationIndexerBackgroundService(IElasticsearchIndexerService<LocationDocument> indexerService,
                                             ILogger<LocationIndexerBackgroundService> logger)
     {
-        ArgumentNullException.ThrowIfNull(indexDirectory);
-
         _indexerService = indexerService ?? throw new ArgumentNullException(nameof(indexerService));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _indexHashFileName = new FileInfo(Path.Combine(indexDirectory.FullName,
-            "Metadata",
-            $"{_indexerService.IndexName}.version"));
     }
 
     /// <summary>
@@ -58,27 +49,19 @@ public sealed class LocationIndexerBackgroundService : BackgroundService
     /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
     /// <remarks>
     ///     This method loads location data from an embedded JSON resource, computes its hash, and compares it
-    ///     with the stored hash to determine if the index needs rebuilding. If rebuilding is required, it
-    ///     deserializes the documents, indexes them, optimizes the index, and saves the new hash.
+    ///     with the hash recorded from the previous seed to determine if the index needs rebuilding. If rebuilding
+    ///     is required, it deserializes the documents, indexes them, and records the new hash.
     /// </remarks>
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        if ( !_indexHashFileName.Directory!.Exists )
-        {
-            Directory.CreateDirectory(_indexHashFileName.Directory.FullName);
-        }
-
-        if ( !_indexerService.IndexDirectory.Exists )
-        {
-            Directory.CreateDirectory(_indexerService.IndexDirectory.FullName);
-        }
+        await _indexerService.EnsureIndexExistsAsync(stoppingToken).ConfigureAwait(false);
 
         Assembly assembly = Assembly.GetExecutingAssembly();
 
-        Stream? stream = assembly.GetManifestResourceStream(ResourceName);
+        Stream? stream = assembly.GetManifestResourceStream(s_resourceName);
         if ( stream is null )
         {
-            _logger.LogResourceCouldNotBeLocated(ResourceName, assembly.FullName);
+            _logger.LogResourceCouldNotBeLocated(s_resourceName, assembly.FullName);
             return;
         }
 
@@ -91,19 +74,15 @@ public sealed class LocationIndexerBackgroundService : BackgroundService
 
         string hash = Convert.ToHexString(SHA256.HashData(data));
 
-        if ( _indexHashFileName.Exists )
-        {
-            string fileHash = await File.ReadAllTextAsync(_indexHashFileName.FullName, stoppingToken)
-                                        .ConfigureAwait(false);
+        string? existingHash = await _indexerService.GetSeedHashAsync(stoppingToken).ConfigureAwait(false);
 
-            if ( string.Equals(hash, fileHash, StringComparison.OrdinalIgnoreCase) )
-            {
-                return; // Index is up to date
-            }
+        if ( string.Equals(hash, existingHash, StringComparison.OrdinalIgnoreCase) )
+        {
+            return; // Index is up to date
         }
 
         // Index needs to be rebuilt (we cannot assume that the document identifiers are the same)
-        _indexerService.RemoveAll();
+        await _indexerService.RemoveAllAsync(stoppingToken).ConfigureAwait(false);
 
         List<LocationDocument>? locations = JsonSerializer.Deserialize(data,
             DocumentJsonSerializerContext.Default.ListLocationDocument);
@@ -113,10 +92,8 @@ public sealed class LocationIndexerBackgroundService : BackgroundService
             return;
         }
 
-        _indexerService.IndexMany(locations);
-        _indexerService.Optimize();
+        await _indexerService.IndexManyAsync(locations, stoppingToken).ConfigureAwait(false);
 
-        await File.WriteAllTextAsync(_indexHashFileName.FullName, hash, stoppingToken)
-                  .ConfigureAwait(false);
+        await _indexerService.SaveSeedHashAsync(hash, stoppingToken).ConfigureAwait(false);
     }
 }

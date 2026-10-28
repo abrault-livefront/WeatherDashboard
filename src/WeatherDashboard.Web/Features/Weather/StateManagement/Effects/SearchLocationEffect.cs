@@ -8,7 +8,7 @@ using Domain.Entities.Documents;
 using Fluxor;
 
 /// <summary>
-///     Fluxor effect that handles searching for locations using the Lucene.NET search service.
+///     Fluxor effect that handles searching for locations using the location search service.
 /// </summary>
 /// <remarks>
 ///     This effect responds to <see cref="SearchLocationAction" /> by querying the location search service
@@ -23,7 +23,7 @@ internal sealed class SearchLocationEffect : Effect<SearchLocationAction>
     /// <summary>
     ///     The minimum number of characters required in the search query to perform a search.
     /// </summary>
-    private const int MinimumQueryLength = 3;
+    private const int s_minimumQueryLength = 3;
 
     private readonly ISearchService<LocationDocument> _searchService;
 
@@ -54,7 +54,7 @@ internal sealed class SearchLocationEffect : Effect<SearchLocationAction>
         ArgumentNullException.ThrowIfNull(action);
         ArgumentNullException.ThrowIfNull(dispatcher);
 
-        if ( !string.IsNullOrWhiteSpace(action.Query) && action.Query.Length >= MinimumQueryLength )
+        if ( !string.IsNullOrWhiteSpace(action.Query) && action.Query.Length >= s_minimumQueryLength )
         {
             return HandleInternalAsync(action, dispatcher);
         }
@@ -68,13 +68,11 @@ internal sealed class SearchLocationEffect : Effect<SearchLocationAction>
     /// </summary>
     /// <param name="action">The action containing the search query.</param>
     /// <param name="dispatcher">The Fluxor dispatcher.</param>
-    /// <returns>A completed task.</returns>
-    private Task HandleInternalAsync(SearchLocationAction action, IDispatcher dispatcher)
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task HandleInternalAsync(SearchLocationAction action, IDispatcher dispatcher)
     {
-        SearchResult<LocationDocument> results = _searchService.Search(action.Query);
+        SearchResult<LocationDocument> results = await _searchService.SearchAsync(action.Query).ConfigureAwait(false);
 
         dispatcher.Dispatch(new SearchLocationSuccessAction(results.Results));
-
-        return Task.CompletedTask;
     }
 }

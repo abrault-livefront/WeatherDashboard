@@ -5,8 +5,6 @@ using Application.Common.Interfaces;
 using Domain.Entities.Documents;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Persistence;
 using Providers;
 using Services.BackgroundServices;
 using Services.Indexer;
@@ -20,11 +18,6 @@ using Services.Weather;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    private static readonly DirectoryInfo IndexDirectory =
-        new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "WeatherDashboard",
-            "Indexes"));
-
     /// <summary>
     ///     Adds infrastructure services to the specified <see cref="IServiceCollection" />.
     /// </summary>
@@ -35,18 +28,18 @@ public static class ServiceCollectionExtensions
     ///     This method registers the following services:
     ///     <list type="bullet">
     ///         <item>
-    ///             <description>Lucene directory factory as a singleton.</description>
+    ///             <description>Elasticsearch-backed location indexer service as a singleton.</description>
     ///         </item>
     ///         <item>
-    ///             <description>Location indexer service as a singleton.</description>
-    ///         </item>
-    ///         <item>
-    ///             <description>Location search service as a singleton.</description>
+    ///             <description>Elasticsearch-backed location search service as a singleton.</description>
     ///         </item>
     ///         <item>
     ///             <description>Location indexer background service as a hosted service.</description>
     ///         </item>
     ///     </list>
+    ///     Registration relies on an <see cref="Elastic.Clients.Elasticsearch.ElasticsearchClient" /> already being
+    ///     registered in <paramref name="services" /> (e.g. via Aspire's <c>AddElasticsearchClient</c>) before this
+    ///     method is called.
     /// </remarks>
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
     {
@@ -56,21 +49,10 @@ public static class ServiceCollectionExtensions
         services.AddHttpClient<WeatherApiClient>()
                 .AddStandardResilienceHandler();
 
-        services.TryAddSingleton<LuceneDirectoryFactory>();
+        services.TryAddSingleton<IElasticsearchIndexerService<LocationDocument>, ElasticsearchLocationIndexerService>();
+        services.TryAddSingleton<ISearchService<LocationDocument>, ElasticsearchLocationSearchService>();
 
-        services.TryAddSingleton<ILuceneIndexerService<LocationDocument>>(provider =>
-            new LocationIndexerService(IndexDirectory,
-                provider.GetRequiredService<ILogger<LocationIndexerService>>(),
-                provider.GetRequiredService<LuceneDirectoryFactory>()
-            ));
-
-        services.TryAddSingleton<ISearchService<LocationDocument>, LocationSearchService>();
-
-        services.AddHostedService(provider =>
-            new LocationIndexerBackgroundService(IndexDirectory,
-                provider.GetRequiredService<ILuceneIndexerService<LocationDocument>>(),
-                provider.GetRequiredService<ILogger<LocationIndexerBackgroundService>>()));
-
+        services.AddHostedService<LocationIndexerBackgroundService>();
 
         services.TryAddScoped<IWeatherService, WeatherService>();
 

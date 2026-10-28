@@ -1,0 +1,6 @@
+{
+  "appHost": {
+    "language": "csharp",
+    "path": "WeatherDashboard.AppHost.csproj"
+  }
+}

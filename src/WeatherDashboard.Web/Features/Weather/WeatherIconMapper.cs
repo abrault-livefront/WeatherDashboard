@@ -11,7 +11,7 @@ internal static class WeatherIconMapper
     /// <summary>
     ///     A frozen dictionary mapping weather codes to their corresponding day and night icon class names.
     /// </summary>
-    private static readonly FrozenDictionary<WeatherCode, (string Day, string Night)> IconMap =
+    private static readonly FrozenDictionary<WeatherCode, (string Day, string Night)> s_iconMap =
         new Dictionary<WeatherCode, (string Day, string Night)>
         {
             { WeatherCode.ClearSky, ( "wi-day-sunny", "wi-night-clear" ) },
@@ -30,23 +30,23 @@ internal static class WeatherIconMapper
             { WeatherCode.RainHeavy, ( "wi-day-rain-wind", "wi-night-alt-rain-wind" ) },
             { WeatherCode.FreezingRainLight, ( "wi-day-rain-mix", "wi-night-alt-rain-mix" ) },
             { WeatherCode.FreezingRainHeavy, ( "wi-day-rain-mix", "wi-night-alt-rain-mix" ) },
-            { WeatherCode.SnowFallSlight, ( WeatherDaySnow, WeatherNightSnow ) },
-            { WeatherCode.SnowFallModerate, ( WeatherDaySnow, WeatherNightSnow ) },
+            { WeatherCode.SnowFallSlight, ( s_weatherDaySnow, s_weatherNightSnow ) },
+            { WeatherCode.SnowFallModerate, ( s_weatherDaySnow, s_weatherNightSnow ) },
             { WeatherCode.SnowFallHeavy, ( "wi-day-snow-wind", "wi-night-alt-snow-wind" ) },
-            { WeatherCode.SnowGrains, ( WeatherDaySnow, WeatherNightSnow ) },
+            { WeatherCode.SnowGrains, ( s_weatherDaySnow, s_weatherNightSnow ) },
             { WeatherCode.RainShowersSlight, ( "wi-day-showers", "wi-night-alt-showers" ) },
             { WeatherCode.RainShowersModerate, ( "wi-day-showers", "wi-night-alt-showers" ) },
             { WeatherCode.RainShowersViolent, ( "wi-day-rain-wind", "wi-night-alt-rain-wind" ) },
-            { WeatherCode.SnowShowersSlight, ( WeatherDaySnow, WeatherNightSnow ) },
+            { WeatherCode.SnowShowersSlight, ( s_weatherDaySnow, s_weatherNightSnow ) },
             { WeatherCode.SnowShowersHeavy, ( "wi-day-snow-wind", "wi-night-alt-snow-wind" ) },
             { WeatherCode.ThunderstormSlightOrModerate, ( "wi-day-thunderstorm", "wi-night-alt-thunderstorm" ) },
             { WeatherCode.ThunderstormWithHail, ( "wi-day-storm-showers", "wi-night-alt-storm-showers" ) },
             { WeatherCode.ThunderstormWithSevereHail, ( "wi-day-storm-showers", "wi-night-alt-storm-showers" ) },
         }.ToFrozenDictionary();
 
-    private const string WeatherDaySnow = "wi-day-snow";
+    private const string s_weatherDaySnow = "wi-day-snow";
 
-    private const string WeatherNightSnow = "wi-night-alt-snow";
+    private const string s_weatherNightSnow = "wi-night-alt-snow";
 
     /// <summary>
     ///     Gets the Beaufort wind scale icon class name based on wind speed.
@@ -81,7 +81,7 @@ internal static class WeatherIconMapper
     /// <returns>A weather icon class name, or "wi-na" if the code is null or not found.</returns>
     public static string GetWeatherCodeIcon(WeatherCode? code, bool isNight = false)
     {
-        if ( code is null || !IconMap.TryGetValue((WeatherCode)code, out (string Day, string Night) icons) )
+        if ( code is null || !s_iconMap.TryGetValue((WeatherCode)code, out (string Day, string Night) icons) )
         {
             return "wi-na";
         }

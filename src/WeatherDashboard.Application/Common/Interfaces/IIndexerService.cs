@@ -8,14 +8,9 @@ using Domain.Entities.Documents;
 /// <typeparam name="TDocument">
 ///     The type of document handled by this indexer. Must implement <see cref="IDocument" />.
 /// </typeparam>
-public interface IIndexerService<in TDocument> : IDisposable
+public interface IIndexerService<in TDocument>
     where TDocument : class, IDocument
 {
-    /// <summary>
-    ///     Gets the directory where the index files are stored.
-    /// </summary>
-    DirectoryInfo IndexDirectory { get; }
-
     /// <summary>
     ///     Gets the name of the index.
     /// </summary>
@@ -25,13 +20,13 @@ public interface IIndexerService<in TDocument> : IDisposable
     ///     Indexes a single document.
     /// </summary>
     /// <param name="document">The document to index.</param>
-    /// <exception cref="IOException">Thrown when an I/O error occurs while writing to the index.</exception>
-    void Index(TDocument document);
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    Task IndexAsync(TDocument document, CancellationToken cancellationToken = default);
 
     /// <summary>
     ///     Indexes multiple documents.
     /// </summary>
     /// <param name="documents">The collection of documents to index.</param>
-    /// <exception cref="IOException">Thrown when an I/O error occurs while writing to the index.</exception>
-    void IndexMany(IEnumerable<TDocument> documents);
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    Task IndexManyAsync(IEnumerable<TDocument> documents, CancellationToken cancellationToken = default);
 }

@@ -107,7 +107,6 @@ src/
 │   │   └── Utilities/      # Utility classes (HashUtility)
 │   └── Contracts/          # DTOs and mappers (Riok.Mapperly)
 ├── WeatherDashboard.Infrastructure/
-│   ├── Configuration/      # Configuration options (RedisOptions)
 │   ├── Data/              # Seed data (embedded JSON)
 │   ├── Extensions/         # Service registration
 │   ├── Persistence/        # Lucene directory factory
@@ -177,12 +176,12 @@ The Domain layer has **zero external dependencies** to maintain pure business lo
 
 | Package                                                                                                                                                  | Version  | Description                                                   |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------|----------|---------------------------------------------------------------|
+| [Aspire.StackExchange.Redis](https://www.nuget.org/packages/Aspire.StackExchange.Redis/)                                                                 | 13.5.4   | Aspire-integrated Redis client (connection injection, health checks) |
 | [Fluxor.Blazor.Web](https://www.nuget.org/packages/Fluxor.Blazor.Web/)                                                                                   | 6.9.0    | Redux-like state management for Blazor                        |
 | [Fluxor.Blazor.Web.ReduxDevTools](https://www.nuget.org/packages/Fluxor.Blazor.Web.ReduxDevTools/)                                                       | 6.9.0    | Redux DevTools integration (dev only)                         |
 | [JetBrains.Annotations](https://www.nuget.org/packages/JetBrains.Annotations/)                                                                           | 2025.2.4 | Code annotations for IDE analysis                             |
 | [Microsoft.AspNetCore.DataProtection.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.AspNetCore.DataProtection.StackExchangeRedis/)         | 10.0.1   | Data protection key storage in Redis                          |
 | [Microsoft.Extensions.Caching.StackExchangeRedis](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/)                       | 10.0.1   | Redis distributed cache                                       |
-| [NeoSmart.Caching.Sqlite.AspNetCore](https://www.nuget.org/packages/NeoSmart.Caching.Sqlite.AspNetCore/)                                                 | 9.0.1    | SQLite cache for development                                  |
 | [NetEscapades.AspNetCore.SecurityHeaders](https://www.nuget.org/packages/NetEscapades.AspNetCore.SecurityHeaders/)                                       | 1.3.0    | Middleware for adding security headers (CSP, X-Frame-Options) |
 | [Radzen.Blazor](https://www.nuget.org/packages/Radzen.Blazor/)                                                                                           | 8.4.1    | UI component library with Material theme and WCAG compliance  |
 | [Serilog](https://www.nuget.org/packages/Serilog/)                                                                                                       | 4.3.0    | Structured logging framework                                  |
@@ -401,43 +400,6 @@ graph LR
 
    The solution uses Central Package Management (CPM), so all versions are managed in `Directory.Packages.props`.
 
-### Running with Docker
-
-The application includes Docker support with docker-compose for production deployment.
-
-> [!IMPORTANT]
-> If you have not yet, ensure that you run `./generate-pfx.sh` to create the required PFX certificate before running docker-compose the first time.
-
-1. **Build and Run with Docker Compose**
-
-   ```bash
-   docker-compose up --build
-   ```
-
-   This starts three containers:
-   - `weather-dashboard-app` - The Blazor application (port 8080)
-   - `weather-dashboard-redis-cache` - Redis for distributed caching (port 6379)
-   - `weather-dashboard-redis-config` - Redis for data protection keys (port 6380)
-
-2. **Access the Application**
-
-   Navigate to **http://localhost:8080** in your browser.
-
-3. **Stop the Containers**
-
-   ```bash
-   docker-compose down
-   ```
-
-**Docker Configuration:**
-- Uses production configuration (`appsettings.Production.json`) with Redis for caching and data protection
-- Not recommended for local development (use `dotnet run` with SQLite cache instead)
-- Redis cache uses LRU eviction policy (256MB max memory)
-- Redis config uses no-eviction policy (128MB max memory)
-- Health checks enabled for all services
-- Resource limits configured for efficient resource usage
-- Dockerfile installs Node.js (via NVM) and pnpm for CSS compilation
-
 ## Configuration
 
 ### Cookie Settings
@@ -525,47 +487,28 @@ The selected language preference is automatically saved in a culture cookie that
 
 ### Redis Configuration
 
-In production, the application expects two separate Redis instances:
+The application uses two separate Redis instances, both provisioned by the .NET Aspire AppHost (`src/WeatherDashboard.AppHost/AppHost.cs`):
 
-```json
-{
-  "RedisCache": {
-    "ConnectionString": "redis-cache:6379",
-    "EndPoints": [
-      {
-        "Host": "redis-cache",
-        "Port": 6379
-      }
-    ],
-    "ResolveDns": false
-  },
-  "RedisConfig": {
-    "ConnectionString": "redis-config:6379",
-    "EndPoints": [
-      {
-        "Host": "redis-config",
-        "Port": 6379
-      }
-    ],
-    "ResolveDns": false
-  }
-}
+```csharp
+IResourceBuilder<RedisResource> redisCache = builder.AddRedis("redis-cache", 6379)
+                                                    .WithImageTag("8.4-alpine")
+                                                    .WithDataVolume()
+                                                    .WithArgs("--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru")
+                                                    .WithRedisInsight();
+
+IResourceBuilder<RedisResource> redisConfig = builder.AddRedis("redis-config", 6380)
+                                                     .WithImageTag("8.4-alpine")
+                                                     .WithDataVolume()
+                                                     .WithArgs("--maxmemory", "128mb", "--maxmemory-policy", "noeviction");
 ```
 
+`WeatherDashboard.Web` consumes these via the `Aspire.StackExchange.Redis` client integration (`builder.AddKeyedRedisClient("redis-cache")` / `builder.AddKeyedRedisClient("redis-config")` in `Program.cs`), which reads the connection strings Aspire injects at runtime (`ConnectionStrings:redis-cache` / `ConnectionStrings:redis-config`) — no connection details are hardcoded in `appsettings.json`.
+
 **Redis Instance Purposes:**
-- **RedisCache**: Distributed caching with FusionCache and Redis backplane for cache invalidation across instances
-- **RedisConfig**: Data protection key storage for ASP.NET Core data protection system
+- **redis-cache**: Distributed caching with FusionCache and Redis backplane for cache invalidation across instances
+- **redis-config**: Data protection key storage for ASP.NET Core data protection system
 
-**Configuration Options** (defined in `Infrastructure/Configuration/RedisOptions.cs`):
-- `ConnectionString`: Optional Redis connection string (alternative to EndPoints)
-- `EndPoints`: Array of Redis endpoints (supports multiple for cluster/replica configurations)
-  - `Host`: Hostname or IP address (default: "localhost")
-  - `Port`: Port number (default: 6379)
-- `ResolveDns`: Whether to resolve DNS names to IPs before connecting (default: false)
-- `ConnectTimeoutMilliseconds`: Optional connection timeout (default: 5000ms if not specified)
-- `SyncTimeoutMilliseconds`: Optional synchronous operation timeout (default: 5000ms if not specified)
-
-**Development Behavior**: Redis is not used in development. The application uses SQLite for caching instead.
+**Development Behavior**: Redis is always used, including local development — running `dotnet run --project src/WeatherDashboard.AppHost` provisions both Redis containers automatically.
 
 ## External Services
 
@@ -618,10 +561,9 @@ The project uses different mapping approaches depending on the layer:
 - Custom `TimeZoneInfoFormatter` (Application/Common/Serialization/MessagePack/) registered with MessagePack resolver for serializing TimeZoneInfo objects
 - Cache contracts in Application layer use Riok.Mapperly for mapping between domain entities and cache DTOs
 
-**Environment-Specific Caching:**
-- **Development**: Uses NeoSmart.Caching.Sqlite as L2 distributed cache (single-instance, file-based) in `LocalApplicationData/WeatherDashboard/Cache`
-- **Production**: Uses Redis as L2 distributed cache with backplane for cache invalidation across multiple instances
-- **Both**: FusionCache provides L1 in-memory cache for optimal performance
+**Caching:**
+- Uses Redis (Aspire-provisioned `redis-cache` instance) as the L2 distributed cache with a backplane for cache invalidation across multiple instances, in every environment
+- FusionCache provides L1 in-memory cache for optimal performance
 
 ### Search Implementation
 
@@ -635,8 +577,8 @@ The project uses different mapping approaches depending on the layer:
 ### Security
 
 - **Data Protection**: Keys encrypted with X.509 certificate (WeatherDashboard.Web.DataProtection.pfx)
-  - Development: Certificate stored in project directory
-  - Production: Keys persisted in Redis for multi-instance scenarios
+  - Certificate stored in project directory
+  - Keys persisted in Redis (Aspire-provisioned `redis-config` instance) for multi-instance scenarios
 - **Anti-forgery Tokens**: Environment-specific cookie names for CSRF protection
 - **Application Name Isolation**: By environment for multi-environment deployments
 - **Certificate Generation**: Use `generate-pfx.sh` to create the required PFX certificate

@@ -13,9 +13,9 @@ using Serialization.Weather;
     Justification = "This class is registered in the DI container.")]
 internal sealed class WeatherApiClient
 {
-    private static readonly Uri BaseUri = new("https://api.open-meteo.com/v1/forecast");
+    private static readonly Uri s_baseUri = new("https://api.open-meteo.com/v1/forecast");
 
-    private static readonly FrozenSet<string> DailyParameters = new[]
+    private static readonly FrozenSet<string> s_dailyParameters = new[]
     {
         "apparent_temperature_max",
         "dew_point_2m_max",
@@ -31,7 +31,7 @@ internal sealed class WeatherApiClient
         "wind_speed_10m_min",
     }.ToFrozenSet();
 
-    private static readonly string DailyParametersString = string.Join(',', DailyParameters);
+    private static readonly string s_dailyParametersString = string.Join(',', s_dailyParameters);
 
     private readonly HttpClient _httpClient;
 
@@ -61,7 +61,7 @@ internal sealed class WeatherApiClient
         {
             { "latitude", latitude.ToString(CultureInfo.InvariantCulture) },
             { "longitude", longitude.ToString(CultureInfo.InvariantCulture) },
-            { "daily", DailyParametersString },
+            { "daily", s_dailyParametersString },
             { "wind_speed_unit", "mph" },
             { "temperature_unit", "fahrenheit" },
             { "precipitation_unit", "inch" },
@@ -71,7 +71,7 @@ internal sealed class WeatherApiClient
         string queryString = string.Join('&',
             queryParameters.Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value)}"));
 
-        Uri requestUri = new(BaseUri, $"?{queryString}");
+        Uri requestUri = new(s_baseUri, $"?{queryString}");
 
         using HttpResponseMessage response = await _httpClient.GetAsync(requestUri,
                                                                    HttpCompletionOption.ResponseHeadersRead,
