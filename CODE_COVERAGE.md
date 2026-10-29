@@ -3,20 +3,21 @@
 
 |||
 |:---|:---|
-| Generated on: | 12/29/2025 - 3:44:24 PM |
-| Coverage date: | 12/29/2025 - 3:42:39 PM - 12/29/2025 - 3:43:27 PM |
-| Parser: | MultiReport (7x Cobertura) |
+| Generated on: | 10/29/2026 - 11:53:44 AM |
+| Coverage date: | 10/29/2026 - 11:53:08 AM - 10/29/2026 - 11:53:34 AM |
+| Parser: | MultiReport (6x Cobertura) |
 | Assemblies: | 4 |
-| Classes: | 37 |
-| Files: | 37 |
-| **Line coverage:** | 92.5% (811 of 876) |
-| Covered lines: | 811 |
-| Uncovered lines: | 65 |
-| Coverable lines: | 876 |
-| Total lines: | 2694 |
-| **Branch coverage:** | 81.1% (219 of 270) |
-| Covered branches: | 219 |
-| Total branches: | 270 |
+| Classes: | 43 |
+| Files: | 43 |
+| **Line coverage:** | 93.9% (855 of 910) |
+| Covered lines: | 855 |
+| Uncovered lines: | 55 |
+| Coverable lines: | 910 |
+| Total lines: | 2752 |
+| **Branch coverage:** | 80.4% (255 of 317) |
+| Covered branches: | 255 |
+| Total branches: | 317 |
+| **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
 
@@ -32,45 +33,51 @@
 |WeatherDashboard.Application.Common.Utilities.HashUtility|100%||
 
 </details>
-<details><summary>WeatherDashboard.Domain - 91.4%</summary>
+<details><summary>WeatherDashboard.Domain - 92.1%</summary>
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**WeatherDashboard.Domain**|**91.4%**|**93.4%**|
-|WeatherDashboard.Domain.Collections.ValueRangeMap`2|89.4%|91.1%|
+|**WeatherDashboard.Domain**|**92.1%**|**92.5%**|
+|WeatherDashboard.Domain.Collections.ValueRangeMap`2|89.5%|89.2%|
 |WeatherDashboard.Domain.Common.SearchResult`1|100%|100%|
+|WeatherDashboard.Domain.Entities.Documents.LocationDocument|100%||
 |WeatherDashboard.Domain.Entities.Weather.Forecast|100%||
 |WeatherDashboard.Domain.ValueObjects.ValueRange`1|100%|100%|
 
 </details>
-<details><summary>WeatherDashboard.Infrastructure - 88.2%</summary>
+<details><summary>WeatherDashboard.Infrastructure - 92.4%</summary>
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**WeatherDashboard.Infrastructure**|**88.2%**|**80%**|
-|WeatherDashboard.Infrastructure.Persistence.LuceneDirectoryFactory|88.2%|75%|
-|WeatherDashboard.Infrastructure.Services.BackgroundServices.LocationIndexer<br/>BackgroundService|100%|100%|
-|WeatherDashboard.Infrastructure.Services.Indexer.Abstractions.LuceneIndexer<br/>Service`1|72.4%|75%|
-|WeatherDashboard.Infrastructure.Services.Indexer.LocationIndexerService|100%|100%|
-|WeatherDashboard.Infrastructure.Services.Search.Abstractions.LuceneSearchSe<br/>rvice`1|85.1%|80%|
-|WeatherDashboard.Infrastructure.Services.Search.LocationSearchService|95.5%|83.3%|
-|WeatherDashboard.Infrastructure.Services.Weather.WeatherApiClient|100%|50%|
-|WeatherDashboard.Infrastructure.Services.Weather.WeatherApiRateLimitTracker|100%|50%|
+|**WeatherDashboard.Infrastructure**|**92.4%**|**78.4%**|
+|WeatherDashboard.Infrastructure.Services.BackgroundServices.LocationIndexer<br/>BackgroundService|84.8%|80%|
+|WeatherDashboard.Infrastructure.Services.Indexer.ElasticsearchLocationIndex<br/>erService|78.7%|66.6%|
+|WeatherDashboard.Infrastructure.Services.Indexer.SeedMetadata|100%||
+|WeatherDashboard.Infrastructure.Services.Search.ElasticsearchLocationSearch<br/>Service|90.6%|62.5%|
+|WeatherDashboard.Infrastructure.Services.Search.LocationSearchQuerySanitize<br/>r|100%||
+|WeatherDashboard.Infrastructure.Services.Weather.WeatherApiClient|100%|80%|
+|WeatherDashboard.Infrastructure.Services.Weather.WeatherApiRateLimitTracker|100%|94.4%|
 |WeatherDashboard.Infrastructure.Services.Weather.WeatherMapper|100%|100%|
-|WeatherDashboard.Infrastructure.Services.Weather.WeatherService|100%||
+|WeatherDashboard.Infrastructure.Services.Weather.WeatherService|100%|100%|
 
 </details>
-<details><summary>WeatherDashboard.Web - 96.2%</summary>
+<details><summary>WeatherDashboard.Web - 94.7%</summary>
 
 |**Name**|**Line**|**Branch**|
 |:---|---:|---:|
-|**WeatherDashboard.Web**|**96.2%**|**76.2%**|
+|**WeatherDashboard.Web**|**94.7%**|**77.1%**|
 |WeatherDashboard.Web.Configuration.LocalStorageSettings|83.3%|50%|
 |WeatherDashboard.Web.Features.Weather.Components.CurrentForecastCard|100%|90.9%|
 |WeatherDashboard.Web.Features.Weather.Components.CurrentHighlightsCard|100%|88.4%|
-|WeatherDashboard.Web.Features.Weather.Components.LocationSearchField|83.3%|50%|
+|WeatherDashboard.Web.Features.Weather.Components.LocationSearchField|55.5%|42.8%|
 |WeatherDashboard.Web.Features.Weather.Components.WeeklyForecastCard|100%|70%|
-|WeatherDashboard.Web.Features.Weather.Home|100%|50%|
+|WeatherDashboard.Web.Features.Weather.Home|95.7%|50%|
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.FetchWeatherA<br/>ction|100%||
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.FetchWeatherS<br/>uccessAction|100%||
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.LocationSelec<br/>tedAction|100%||
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.SearchLocatio<br/>nAction|100%||
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.SearchLocatio<br/>nSuccessAction|100%||
+|WeatherDashboard.Web.Features.Weather.StateManagement.Actions.SelectLocatio<br/>nAction|100%||
 |WeatherDashboard.Web.Features.Weather.StateManagement.Effects.FetchWeatherE<br/>ffect|100%|100%|
 |WeatherDashboard.Web.Features.Weather.StateManagement.Effects.SearchLocatio<br/>nEffect|100%|100%|
 |WeatherDashboard.Web.Features.Weather.StateManagement.Effects.SelectLocatio<br/>nEffect|100%||
@@ -80,9 +87,9 @@
 |WeatherDashboard.Web.Features.Weather.StateManagement.Reducers.SearchLocati<br/>onReducer|100%||
 |WeatherDashboard.Web.Features.Weather.StateManagement.Reducers.SearchLocati<br/>onSuccessReducer|100%||
 |WeatherDashboard.Web.Features.Weather.StateManagement.Reducers.SelectLocati<br/>onReducer|100%||
-|WeatherDashboard.Web.Features.Weather.WeatherHelpers|100%|80%|
-|WeatherDashboard.Web.Features.Weather.WeatherIconMapper|88%|72.2%|
+|WeatherDashboard.Web.Features.Weather.WeatherHelpers|100%|85%|
+|WeatherDashboard.Web.Features.Weather.WeatherIconMapper|89.2%|75%|
 |WeatherDashboard.Web.Features.Weather.WeatherRanges|100%||
-|WeatherDashboard.Web.Middlewares.QueryCultureCookieMiddleware|100%||
+|WeatherDashboard.Web.Middlewares.QueryCultureCookieMiddleware|100%|100%|
 
 </details>

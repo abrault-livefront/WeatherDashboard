@@ -38,6 +38,7 @@
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+    <None Include="$(MSBuildThisFileDirectory)testconfig.json" Link="testconfig.json" CopyToOutputDirectory="PreserveNewest"/>
   </ItemGroup>
   
   <ItemGroup>

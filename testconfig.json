@@ -1,0 +1,17 @@
+{
+  "platformOptions": {
+    "Coverlet": {
+      "include": "[WeatherDashboard.*]*",
+      "exclude": "[*]MessagePack.GeneratedMessagePackResolver,[*]MessagePack.Resolvers.*,[*]MessagePack.Formatters.*Formatter",
+      "excludeByAttribute": "GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute",
+      "excludeByFile": "**/obj/**/*.cs,**/*GeneratedMessagePackResolver*.cs,**/*.g.cs",
+      "excludeAssembliesWithoutSources": "MissingAll",
+      "format": "cobertura",
+      "singleHit": false,
+      "useSourceLink": true,
+      "includeTestAssembly": false,
+      "skipAutoProps": true,
+      "deterministicReport": true
+    }
+  }
+}

@@ -62,6 +62,10 @@ public sealed class LocationSearchFieldTests : BunitContext
         Services.AddDataProtection();
         Services.AddSingleton(sp => new ProtectedLocalStorage(JSInterop.JSRuntime, sp.GetRequiredService<IDataProtectionProvider>()));
 
+        // RadzenAutoComplete initializes its popup via JS interop on first render
+        JSInterop.SetupModule(invocation =>
+            string.Equals(invocation.Identifier, "Radzen.createAutoComplete", StringComparison.Ordinal));
+
         SetupDefaultLocalizerBehavior();
     }
 
